@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Node2d : Area2D
+public partial class Player : Area2D
 {
 	[Export]
 	public int Speed { get; set; } = 400;
@@ -11,12 +11,14 @@ public partial class Node2d : Area2D
 	public override void _Ready()
 	{
 		ScreenSize = GetViewportRect().Size;
+		
+		GD.Print("Player initiated");
 	}
 	
 	public override void _Process(double delta)
 	{
 		var velocity = Vector2.Zero; // The player's movement vector.
-
+		
 		if (Input.IsActionPressed("move_right"))
 		{
 			velocity.X += 1;
@@ -50,9 +52,9 @@ public partial class Node2d : Area2D
 		}
 		
 		Position += velocity * (float)delta;
-		Position = new Vector2(
-			x: Mathf.Clamp(Position.X, 0, ScreenSize.X),
-			y: Mathf.Clamp(Position.Y, 0, ScreenSize.Y)
-		);
+		//Position = new Vector2(
+			//x: Mathf.Clamp(Position.X, 0, ScreenSize.X),
+			//y: Mathf.Clamp(Position.Y, 0, ScreenSize.Y)
+		//);
 	}
 }
