@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3rgk4niwdhtp"]
+
+[ext_resource type="PackedScene" uid="uid://dl3iwa2poeaho" path="res://Entity/entity.tscn" id="1_tpcsv"]
+[ext_resource type="Script" uid="uid://dnxcaofpt8qr" path="res://Entity/Tree/Tree.cs" id="2_rcmwt"]
+[ext_resource type="Texture2D" uid="uid://c8wap683fg75x" path="res://assets/tilesets/Basic_Grass_Biom_things.png" id="3_rcmwt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e6ehd"]
+atlas = ExtResource("3_rcmwt")
+region = Rect2(0, 0, 16, 32)
+
+[node name="Tree" instance=ExtResource("1_tpcsv")]
+script = ExtResource("2_rcmwt")
+
+[node name="Sprite2D" parent="." index="0"]
+z_index = 1
+texture = SubResource("AtlasTexture_e6ehd")
+centered = false
+
+[node name="CollisionShape2D" parent="." index="1"]
+y_sort_enabled = true
+position = Vector2(8, 23)

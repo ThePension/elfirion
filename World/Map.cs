@@ -61,13 +61,14 @@ public partial class Map : Node2D
 				needed.Add(chunkCoord);
 
 				if (!chunks.ContainsKey(chunkCoord))
-				{
+				{				
 					var chunk = ChunkScene.Instantiate<Chunk>();
+					
+					chunk.Init(chunkCoord, RandomGlobalSeed);
 					
 					chunk.Position = new Vector2(chunkCoord.X * Settings.Instance.ChunkSizePx,
 												 chunkCoord.Y * Settings.Instance.ChunkSizePx);					
 												
-					chunk.GenerateWorld(chunkCoord, RandomGlobalSeed); // custom method you add to generate noise based on chunkCoord
 					chunkContainer.AddChild(chunk);
 					chunks[chunkCoord] = chunk;
 				}

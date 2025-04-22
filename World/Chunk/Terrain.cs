@@ -14,23 +14,30 @@ public static class TileDictionary
 	public static TileInfo GRASS = new TileInfo() { SourceId = 0, Coord = new Vector2I(1, 1) };
 }
 
-public partial class Chunk : Godot.TileMapLayer
+public partial class Terrain : TileMapLayer
 {
-	public static int CHUNK_WIDTH = 16;
-	public static int CHUNK_HEIGHT = 16;
-	
 	private FastNoiseLite fastNoiseLite = new();
+	private Vector2I chunkCoord;
+	
+	// Structure to hold grid (terrain) data
+	public TileInfo[,] data;
 	
 	public override void _Process(double delta) {
 		if (Input.IsActionPressed("refresh")) {
-			//GenerateWorld();
+			RandomNumberGenerator rng = new();
+			rng.Randomize();
+			int seed = rng.RandiRange(0, 500);
+			GenerateTerrain(chunkCoord, seed);
 		}
 	}
 	
-	public void GenerateWorld(Vector2I chunkCoord, int seed)
+	public void GenerateTerrain(Vector2I chunkCoord, int seed)
 	{
-		int offsetX = chunkCoord.X * CHUNK_WIDTH * 16;
-		int offsetY = chunkCoord.Y * CHUNK_HEIGHT * 16;
+		this.chunkCoord = chunkCoord;
+		this.data = new TileInfo[Settings.Instance.ChunkSize, Settings.Instance.ChunkSize];
+
+		int offsetX = chunkCoord.X * Settings.Instance.ChunkSize;
+		int offsetY = chunkCoord.Y * Settings.Instance.ChunkSize;
 
 		// The list of tiles we want to use with the noise. Order matters !
 		List<TileInfo> tilesList =
@@ -48,13 +55,14 @@ public partial class Chunk : Godot.TileMapLayer
 		fastNoiseLite.FractalOctaves = tilesList.Count;
 		fastNoiseLite.FractalGain = 0;
 		
-		for (int x = 0; x < CHUNK_WIDTH; x++)
+		for (int x = 0; x < Settings.Instance.ChunkSize; x++)
 		{
-			for (int y = 0; y < CHUNK_HEIGHT; y++)
+			for (int y = 0; y < Settings.Instance.ChunkSize; y++)
 			{
 				// We get the noise coordinate as an absolute value (which represents the gradient - or layer) .
-				float absNoise = Math.Abs(fastNoiseLite.GetNoise2D(x + offsetX, y + offsetY));
-				
+				float scale = 0.7f; // tweak between 0.01 and 0.2 depending on world size
+				float absNoise = Math.Abs(fastNoiseLite.GetNoise2D((x + offsetX) * scale, (y + offsetY) * scale));
+								
 				var position = new Vector2I(x, y);
 				
 				// We determine which tile our value corresponds to.
@@ -63,6 +71,8 @@ public partial class Chunk : Godot.TileMapLayer
 				var tileInfo = tilesList[tileToPlace];
 				
 				SetCell(position, tileInfo.SourceId, tileInfo.Coord);
+
+				data[x, y] = tileInfo;
 			}
 		}
 	}

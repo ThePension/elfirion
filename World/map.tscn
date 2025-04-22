@@ -1,19 +1,25 @@
 [gd_scene load_steps=5 format=3 uid="uid://bab8dc7b7rr6e"]
 
-[ext_resource type="Script" uid="uid://dgbc28yv3lxsh" path="res://Map.cs" id="1_e0an3"]
-[ext_resource type="PackedScene" uid="uid://k7xqols0r7oj" path="res://ChunkScene.tscn" id="2_e0an3"]
-[ext_resource type="PackedScene" uid="uid://byjhkgsumdtkc" path="res://player.tscn" id="2_wijl4"]
+[ext_resource type="Script" uid="uid://dgbc28yv3lxsh" path="res://World/Map.cs" id="1_e0an3"]
+[ext_resource type="PackedScene" uid="uid://k7xqols0r7oj" path="res://World/Chunk/ChunkScene.tscn" id="2_e0an3"]
+[ext_resource type="PackedScene" uid="uid://byjhkgsumdtkc" path="res://Entity/Player/player.tscn" id="2_wijl4"]
 [ext_resource type="PackedScene" uid="uid://j571tiauysv1" path="res://debug_info.tscn" id="4_p5pve"]
 
 [node name="Map" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_e0an3")
 ChunkScene = ExtResource("2_e0an3")
 
 [node name="ChunkContainer" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("2_wijl4")]
+z_index = 2
+Speed = 100
 
 [node name="DebugInfo" parent="Player" instance=ExtResource("4_p5pve")]
+z_index = 2
+y_sort_enabled = true
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0

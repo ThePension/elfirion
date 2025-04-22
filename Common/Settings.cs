@@ -7,7 +7,7 @@ public partial class Settings : Node
 
 	public int ChunkSize = 16;
 	public int TileSizePx = 16;
-	public int ViewDistance = 1;
+	public int ViewDistance = 2;
 	public int ChunkSizePx;
 	
 	public override void _Ready() {

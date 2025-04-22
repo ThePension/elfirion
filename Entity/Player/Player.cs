@@ -11,12 +11,14 @@ public partial class Player : Area2D
 	public override void _Ready()
 	{
 		ScreenSize = GetViewportRect().Size;
-		
-		GD.Print("Player initiated");
 	}
 	
 	public override void _Process(double delta)
 	{
+		var camera = GetViewport().GetCamera2D(); // returns the active one
+
+		ZIndex = Mathf.RoundToInt(GlobalPosition.Y - camera.GlobalPosition.Y + 1000);
+		
 		var velocity = Vector2.Zero; // The player's movement vector.
 		
 		if (Input.IsActionPressed("move_right"))
@@ -52,9 +54,5 @@ public partial class Player : Area2D
 		}
 		
 		Position += velocity * (float)delta;
-		//Position = new Vector2(
-			//x: Mathf.Clamp(Position.X, 0, ScreenSize.X),
-			//y: Mathf.Clamp(Position.Y, 0, ScreenSize.Y)
-		//);
 	}
 }

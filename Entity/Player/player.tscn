@@ -1,19 +1,24 @@
 [gd_scene load_steps=3 format=3 uid="uid://byjhkgsumdtkc"]
 
-[ext_resource type="Script" uid="uid://bsq3qflo7y3kk" path="res://Player.cs" id="1_4flbx"]
+[ext_resource type="Script" uid="uid://bsq3qflo7y3kk" path="res://Entity/Player/Player.cs" id="1_4flbx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0e48y"]
-size = Vector2(64, 64)
+size = Vector2(16, 8)
 
 [node name="Player" type="Area2D"]
+z_index = 1
+y_sort_enabled = true
 script = ExtResource("1_4flbx")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(32, 32)
+y_sort_enabled = true
+position = Vector2(8, 18)
 shape = SubResource("RectangleShape2D_0e48y")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
+y_sort_enabled = true
+scale = Vector2(1, 0.478261)
 color = Color(0.890892, 0.43723, 0.760515, 1)
 polygon = PackedVector2Array(0, 0, 0, 46, 16, 46, 16, 22.6115, 16, 0)
 

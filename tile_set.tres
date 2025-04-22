@@ -1,7 +1,8 @@
-[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://v280ekacc8wi"]
+[gd_resource type="TileSet" load_steps=7 format=3 uid="uid://v280ekacc8wi"]
 
 [ext_resource type="Texture2D" uid="uid://bfc7x3fmb3ssu" path="res://assets/tilesets/Grass.png" id="1_kfwk1"]
 [ext_resource type="Texture2D" uid="uid://yc0va3kmckxe" path="res://assets/tilesets/Water.png" id="2_nq4aq"]
+[ext_resource type="Texture2D" uid="uid://c8wap683fg75x" path="res://assets/tilesets/Basic_Grass_Biom_things.png" id="3_1vrtm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nq4aq"]
 resource_name = "GrassTileSet"
@@ -81,6 +82,51 @@ texture = ExtResource("2_nq4aq")
 2:0/0 = 0
 3:0/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3ppxi"]
+resource_name = "Entities"
+texture = ExtResource("3_1vrtm")
+0:0/size_in_atlas = Vector2i(1, 2)
+0:0/0 = 0
+1:0/size_in_atlas = Vector2i(2, 2)
+1:0/0 = 0
+3:0/size_in_atlas = Vector2i(2, 2)
+3:0/0 = 0
+5:0/0 = 0
+5:1/0 = 0
+6:0/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+8:1/0 = 0
+8:2/0 = 0
+8:3/0 = 0
+8:4/0 = 0
+7:4/0 = 0
+6:4/0 = 0
+5:4/0 = 0
+5:3/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+6:3/0 = 0
+7:2/0 = 0
+7:3/0 = 0
+4:3/0 = 0
+4:2/0 = 0
+3:2/0 = 0
+2:2/0 = 0
+1:2/0 = 0
+0:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+0:4/size_in_atlas = Vector2i(2, 1)
+0:4/0 = 0
+2:4/size_in_atlas = Vector2i(3, 1)
+2:4/0 = 0
+
 [resource]
 sources/0 = SubResource("TileSetAtlasSource_nq4aq")
 sources/1 = SubResource("TileSetAtlasSource_1vrtm")
+sources/2 = SubResource("TileSetAtlasSource_3ppxi")

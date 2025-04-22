@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dl3iwa2poeaho"]
+
+[ext_resource type="Script" uid="uid://dqvpxhc88gphv" path="res://Entity/Entity.cs" id="1_6e8rh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4wwvo"]
+size = Vector2(8, 9)
+
+[node name="Entity" type="StaticBody2D"]
+y_sort_enabled = true
+script = ExtResource("1_6e8rh")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_4wwvo")
