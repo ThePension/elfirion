@@ -11,6 +11,7 @@ public partial class Map : Node2D
 
 
 	public int ChunkSizePx = 64;
+	public int RandomGlobalSeed;
 
 	private Node2D chunkContainer;
 	private Dictionary<Vector2I, Chunk> chunks = new();
@@ -19,6 +20,12 @@ public partial class Map : Node2D
 	public override void _Ready()
 	{
 		chunkContainer = GetNode<Node2D>("ChunkContainer");
+				
+				
+		RandomNumberGenerator rng = new();
+		rng.Randomize();
+		
+		RandomGlobalSeed = rng.RandiRange(0, 500);
 				
 		UpdateVisibleChunks();
 	}
@@ -61,7 +68,7 @@ public partial class Map : Node2D
 					chunk.Position = new Vector2(chunkCoord.X * ChunkSize * TileSizePx,
 												 chunkCoord.Y * ChunkSize * TileSizePx);					
 												
-					chunk.GenerateWorld(chunkCoord); // custom method you add to generate noise based on chunkCoord
+					chunk.GenerateWorld(chunkCoord, RandomGlobalSeed); // custom method you add to generate noise based on chunkCoord
 					chunkContainer.AddChild(chunk);
 					chunks[chunkCoord] = chunk;
 				}

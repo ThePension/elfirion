@@ -27,25 +27,23 @@ public partial class Chunk : Godot.TileMapLayer
 		}
 	}
 	
-	public void GenerateWorld(Vector2I chunkCoord)
+	public void GenerateWorld(Vector2I chunkCoord, int seed)
 	{
 		int offsetX = chunkCoord.X * CHUNK_WIDTH * 16;
 		int offsetY = chunkCoord.Y * CHUNK_HEIGHT * 16;
-		
-		// A random number generator which we will use for the noise seed
-		RandomNumberGenerator rng = new();
+
 		// The list of tiles we want to use with the noise. Order matters !
 		List<TileInfo> tilesList =
 		[
-			TileDictionary.WATER,
-			TileDictionary.GRASS
+			TileDictionary.GRASS,
+			TileDictionary.WATER
 		];
 
-		rng.Randomize();
-		//fastNoiseLite.Seed = rng.RandiRange(0, 500);
+		fastNoiseLite.Seed = seed;
 
 		// Try out other parameters from [NoiseTypeEnum] for cool variants !
 		fastNoiseLite.NoiseType = FastNoiseLite.NoiseTypeEnum.Simplex;
+		
 		// The number of layers we want to generate on the noise. Each tile will have its own layer.
 		fastNoiseLite.FractalOctaves = tilesList.Count;
 		fastNoiseLite.FractalGain = 0;
