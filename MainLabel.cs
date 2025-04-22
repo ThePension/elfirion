@@ -1,8 +1,11 @@
 using Godot;
 using System;
 
-public partial class FpsLabel : Label
+public partial class MainLabel : Label
 {
+ 	[Export]
+	public int ChunkCount { get; set; } = 0;
+
 	public override void _Ready()
 	{
 		// Display the initial FPS
@@ -11,8 +14,14 @@ public partial class FpsLabel : Label
 
 	public override void _Process(double delta)
 	{
+		// Clear the label text
+		Text = string.Empty;
+
 		// Update the FPS every frame
 		UpdateFps();
+
+		// Update the chunk count
+		Text += $"Chunk Count: {ChunkCount}\n";
 	}
 
 	private void UpdateFps()
@@ -21,9 +30,6 @@ public partial class FpsLabel : Label
 		int fps = (int)(1.0 / GetProcessDeltaTime());
 		
 		// Update the label text
-		Text = $"FPS: {fps}";
-
-		// Update location to the top right corner
-		//RectPosition = new Vector2(GetViewport().Size.X - RectSize.X - 10, 10);
+		Text += $"FPS: {fps}\n";
 	}
 }

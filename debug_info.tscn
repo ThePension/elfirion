@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://j571tiauysv1"]
 
-[ext_resource type="Script" uid="uid://c22rqw8k24ah2" path="res://FpsLabel.cs" id="1_busoy"]
+[ext_resource type="Script" uid="uid://c22rqw8k24ah2" path="res://MainLabel.cs" id="1_busoy"]
 
 [node name="DebugInfo" type="Control"]
 layout_mode = 3
@@ -10,9 +10,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="FpsLabel" type="Label" parent="."]
+[node name="MainLabel" type="Label" parent="."]
 layout_mode = 1
 offset_right = 40.0
 offset_bottom = 23.0
 text = "FPS: "
 script = ExtResource("1_busoy")
+ChunkCount = 2

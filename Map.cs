@@ -5,23 +5,20 @@ using System.Collections.Generic;
 public partial class Map : Node2D
 {
 	[Export] public PackedScene ChunkScene;
-	[Export] public int ChunkSize = 16;
-	[Export] public int TileSizePx = 16;
-	[Export] public int ViewDistance = 3;
 
-
-	public int ChunkSizePx = 64;
 	public int RandomGlobalSeed;
 
 	private Node2D chunkContainer;
 	private Dictionary<Vector2I, Chunk> chunks = new();
 	private Vector2I currentChunkCoord = Vector2I.Zero;
 
+	private MainLabel mainDebugLabel;
+
 	public override void _Ready()
 	{
 		chunkContainer = GetNode<Node2D>("ChunkContainer");
-				
-				
+		mainDebugLabel = GetNode<MainLabel>("Player/DebugInfo/MainLabel");
+
 		RandomNumberGenerator rng = new();
 		rng.Randomize();
 		
@@ -39,14 +36,16 @@ public partial class Map : Node2D
 		{
 			currentChunkCoord = newChunkCoord;
 			UpdateVisibleChunks();
+
+			mainDebugLabel.ChunkCount = chunks.Count;
 		}
 	}
 
 	private Vector2I WorldToChunk(Vector2 pos)
 	{
 		return new Vector2I(
-			Mathf.FloorToInt(pos.X / (float)(ChunkSize * TileSizePx)),
-			Mathf.FloorToInt(pos.Y / (float)(ChunkSize * TileSizePx))
+			Mathf.FloorToInt(pos.X / (float)(Settings.Instance.ChunkSizePx)),
+			Mathf.FloorToInt(pos.Y / (float)(Settings.Instance.ChunkSizePx))
 		);
 	}
 
@@ -54,9 +53,9 @@ public partial class Map : Node2D
 	{
 		HashSet<Vector2I> needed = new();
 
-		for (int x = -ViewDistance; x <= ViewDistance; x++)
+		for (int x = -Settings.Instance.ViewDistance; x <= Settings.Instance.ViewDistance; x++)
 		{
-			for (int y = -ViewDistance; y <= ViewDistance; y++)
+			for (int y = -Settings.Instance.ViewDistance; y <= Settings.Instance.ViewDistance; y++)
 			{
 				Vector2I chunkCoord = currentChunkCoord + new Vector2I(x, y);
 				needed.Add(chunkCoord);
@@ -65,8 +64,8 @@ public partial class Map : Node2D
 				{
 					var chunk = ChunkScene.Instantiate<Chunk>();
 					
-					chunk.Position = new Vector2(chunkCoord.X * ChunkSize * TileSizePx,
-												 chunkCoord.Y * ChunkSize * TileSizePx);					
+					chunk.Position = new Vector2(chunkCoord.X * Settings.Instance.ChunkSizePx,
+												 chunkCoord.Y * Settings.Instance.ChunkSizePx);					
 												
 					chunk.GenerateWorld(chunkCoord, RandomGlobalSeed); // custom method you add to generate noise based on chunkCoord
 					chunkContainer.AddChild(chunk);
@@ -85,7 +84,16 @@ public partial class Map : Node2D
 				toRemove.Add(key);
 			}
 		}
+		
 		foreach (var key in toRemove)
 			chunks.Remove(key);
+		
+		// Pretty print chunks coordinates
+		//string chunkCoords = string.Empty;
+		//foreach (var key in chunks.Keys)
+		//{
+			//chunkCoords += $"({key.X}, {key.Y}) ";
+		//}
+		//GD.Print($"Visible Chunks: {chunkCoords}");
 	}
 }
