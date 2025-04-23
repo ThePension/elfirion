@@ -76,4 +76,36 @@ public partial class Terrain : TileMapLayer
 			}
 		}
 	}
+ 
+	public void UpdateTile(Vector2I tileCoord)
+	{
+		// Set the mouse over tile in the terrain
+		tileCoord = new Vector2I(
+			Mathf.FloorToInt(tileCoord.X / (float)(Settings.Instance.TileSizePx)),
+			Mathf.FloorToInt(tileCoord.Y / (float)(Settings.Instance.TileSizePx))
+		);
+
+		tileCoord = new Vector2I(
+			tileCoord.X % Settings.Instance.ChunkSize,
+			tileCoord.Y % Settings.Instance.ChunkSize
+		);
+
+		// Handle negative coordinates
+		if (tileCoord.X < 0)
+		{
+			tileCoord.X += Settings.Instance.ChunkSize;
+		}
+		if (tileCoord.Y < 0)
+		{
+			tileCoord.Y += Settings.Instance.ChunkSize;
+		}
+
+		
+		if (tileCoord.X >= 0 && tileCoord.X < Settings.Instance.ChunkSize && 
+			tileCoord.Y >= 0 && tileCoord.Y < Settings.Instance.ChunkSize)
+		{
+			// Set the tile to grass
+			SetCell(tileCoord, TileDictionary.GRASS.SourceId, TileDictionary.GRASS.Coord);
+		}
+	}
 }

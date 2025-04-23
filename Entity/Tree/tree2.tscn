@@ -15,7 +15,10 @@ script = ExtResource("2_rcmwt")
 z_index = 1
 texture = SubResource("AtlasTexture_e6ehd")
 centered = false
+offset = Vector2(0, -2)
 
 [node name="CollisionShape2D" parent="." index="1"]
+light_mask = 2
+visibility_layer = 2
 y_sort_enabled = true
-position = Vector2(8, 23)
+position = Vector2(8, 23.375)

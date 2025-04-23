@@ -17,10 +17,14 @@ public partial class Map : Node2D
 
 	private MainLabel mainDebugLabel;
 
+	private Polygon2D highlightSprite;
+
 	public override void _Ready()
 	{
 		chunkContainer = GetNode<Node2D>("ChunkContainer");
 		mainDebugLabel = GetNode<MainLabel>("Player/DebugInfo/MainLabel");
+
+		highlightSprite = GetNode<Polygon2D>("ChunkContainer/HighlightSprite");
 
 		RandomNumberGenerator rng = new();
 		rng.Randomize();
@@ -58,6 +62,33 @@ public partial class Map : Node2D
 				chunks.Remove(chunkCoord);
 			}
 		}
+		
+		Vector2 globalMousePos = GetGlobalMousePosition();
+
+		// Handle mouse position
+		Vector2I mousePos = new Vector2I(
+			Mathf.FloorToInt(globalMousePos.X),
+			Mathf.FloorToInt(globalMousePos.Y)
+		);
+
+		var mouseChunkCoord = WorldToChunk(mousePos);
+
+		if (chunks.ContainsKey(mouseChunkCoord))
+		{
+			highlightSprite.Position = WorldToTile(mousePos) * Settings.Instance.TileSizePx;
+
+			highlightSprite.Visible = true;
+
+			// If the mouse is clicked, update the tile in the chunk
+			if (Input.IsActionJustPressed("mouse_left_click"))
+			{
+				chunks[mouseChunkCoord].UpdateTileInChunk(mousePos);
+			}
+		}
+		else
+		{
+			highlightSprite.Visible = false;
+		}
 	}
 
 	private Vector2I WorldToChunk(Vector2 pos)
@@ -65,6 +96,27 @@ public partial class Map : Node2D
 		return new Vector2I(
 			Mathf.FloorToInt(pos.X / (float)(Settings.Instance.ChunkSizePx)),
 			Mathf.FloorToInt(pos.Y / (float)(Settings.Instance.ChunkSizePx))
+		);
+	}
+
+	private Vector2I WorldToTile(Vector2 pos)
+	{
+		return new Vector2I(
+			Mathf.FloorToInt(pos.X / (float)(Settings.Instance.TileSizePx)),
+			Mathf.FloorToInt(pos.Y / (float)(Settings.Instance.TileSizePx))
+		);
+	}
+
+	/// <summary>
+	/// Converts a global chunk coordinate to a local chunk coordinate.
+	/// For example, if the chunk coordinate is (18, 18) and the chunk size is 16,
+	/// the local chunk coordinate will be (2, 2).
+	/// </summary>
+	private Vector2I GlobalChunkCoordoToLocal(Vector2I chunkCoord)
+	{
+		return new Vector2I(
+			chunkCoord.X % Settings.Instance.ChunkSize,
+			chunkCoord.Y % Settings.Instance.ChunkSize
 		);
 	}
 

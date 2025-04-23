@@ -51,4 +51,9 @@ public partial class Chunk : Node2D
 			}
 		}
 	}
+
+	public void UpdateTileInChunk(Vector2I tileCoord)
+	{
+		Terrain.UpdateTile(tileCoord);
+	}
 }

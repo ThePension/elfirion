@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Player : Area2D
+public partial class Player : CharacterBody2D
 {
 	[Export]
 	public int Speed { get; set; } = 400;
@@ -48,7 +48,7 @@ public partial class Player : Area2D
 		}
 		
 		
-		//var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
 		if (velocity.Length() > 0)
 		{
@@ -58,19 +58,52 @@ public partial class Player : Area2D
 			if (Input.IsActionPressed("sprint"))
 			{
 				velocity *= SprintSpeed;
+
+				// Update animation speed
+				animatedSprite2D.SpeedScale = 1.5f;
 			}
 			else
 			{
 				velocity *= Speed;
+
+				
+
+				// Reset animation speed
+				animatedSprite2D.SpeedScale = 1.0f;
 			}
 			
-			//animatedSprite2D.Play();
+			// Play different directions animated based on velocity (walk_up, walk_down, walk_left, walk_right)
+			if (Mathf.Abs(velocity.X) > Mathf.Abs(velocity.Y))
+			{
+				if (velocity.X > 0)
+				{
+					animatedSprite2D.Play("walking_right");
+				}
+				else
+				{
+					animatedSprite2D.Play("walking_left");
+				}
+			}
+			else
+			{
+				if (velocity.Y > 0)
+				{
+					animatedSprite2D.Play("walking_down");
+				}
+				else
+				{
+					animatedSprite2D.Play("walking_up");
+				}
+			}
+
 		}
 		else
 		{
-			//animatedSprite2D.Stop();
+			animatedSprite2D.Stop();
 		}
 		
-		Position += velocity * (float)delta;
+		// Position += velocity * (float)delta;
+		Velocity = velocity;
+		MoveAndSlide();
 	}
 }

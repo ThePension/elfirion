@@ -7,12 +7,12 @@ public partial class Settings : Node
 
 	public int ChunkSize = 16;
 	public int TileSizePx = 16;
-	public int ViewDistance = 3;
+	public int ViewDistance = 1;
 	public int ChunkSizePx;
 
 	// Player related settings
-	public int PlayerBaseSpeed = 400;
-	public int PlayerSprintSpeed = 800;
+	public int PlayerBaseSpeed = 40;
+	public int PlayerSprintSpeed = 80;
 	
 	public override void _Ready() {
 		Instance = this;
