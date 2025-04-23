@@ -10,6 +10,9 @@ public partial class Map : Node2D
 
 	private Node2D chunkContainer;
 	private Dictionary<Vector2I, Chunk> chunks = new();
+	private Stack<Vector2I> chunksToAdd = new();
+	private Stack<Vector2I> chunksToRemove = new();
+
 	private Vector2I currentChunkCoord = Vector2I.Zero;
 
 	private MainLabel mainDebugLabel;
@@ -24,7 +27,7 @@ public partial class Map : Node2D
 		
 		RandomGlobalSeed = rng.RandiRange(0, 500);
 				
-		UpdateVisibleChunks();
+		UpdateChunksStacks();
 	}
 
 	public override void _Process(double delta)
@@ -35,9 +38,25 @@ public partial class Map : Node2D
 		if (newChunkCoord != currentChunkCoord)
 		{
 			currentChunkCoord = newChunkCoord;
-			UpdateVisibleChunks();
+			UpdateChunksStacks();
 
 			mainDebugLabel.ChunkCount = chunks.Count;
+		}
+
+		if (chunksToAdd.Count > 0)
+		{
+			var chunkCoord = chunksToAdd.Pop();
+			CreateAndAddChunk(chunkCoord, RandomGlobalSeed);
+		}
+
+		if (chunksToRemove.Count > 0)
+		{
+			var chunkCoord = chunksToRemove.Pop();
+			if (chunks.ContainsKey(chunkCoord))
+			{
+				chunks[chunkCoord].QueueFree();
+				chunks.Remove(chunkCoord);
+			}
 		}
 	}
 
@@ -49,7 +68,7 @@ public partial class Map : Node2D
 		);
 	}
 
-	private void UpdateVisibleChunks()
+	private void UpdateChunksStacks()
 	{
 		HashSet<Vector2I> needed = new();
 
@@ -60,41 +79,31 @@ public partial class Map : Node2D
 				Vector2I chunkCoord = currentChunkCoord + new Vector2I(x, y);
 				needed.Add(chunkCoord);
 
-				if (!chunks.ContainsKey(chunkCoord))
-				{				
-					var chunk = ChunkScene.Instantiate<Chunk>();
-					
-					chunk.Init(chunkCoord, RandomGlobalSeed);
-					
-					chunk.Position = new Vector2(chunkCoord.X * Settings.Instance.ChunkSizePx,
-												 chunkCoord.Y * Settings.Instance.ChunkSizePx);					
-												
-					chunkContainer.AddChild(chunk);
-					chunks[chunkCoord] = chunk;
+				if (!chunks.ContainsKey(chunkCoord) && !chunksToAdd.Contains(chunkCoord))
+				{
+					// Add chunk to the list of chunks to add
+					chunksToAdd.Push(chunkCoord);
 				}
 			}
 		}
 
-		// Remove chunks that are no longer needed
-		var toRemove = new List<Vector2I>();
+		// Update to remove stack
 		foreach (var key in chunks.Keys)
 		{
 			if (!needed.Contains(key))
 			{
-				chunks[key].QueueFree();
-				toRemove.Add(key);
+				chunksToRemove.Push(key);
 			}
 		}
-		
-		foreach (var key in toRemove)
-			chunks.Remove(key);
-		
-		// Pretty print chunks coordinates
-		//string chunkCoords = string.Empty;
-		//foreach (var key in chunks.Keys)
-		//{
-			//chunkCoords += $"({key.X}, {key.Y}) ";
-		//}
-		//GD.Print($"Visible Chunks: {chunkCoords}");
+	}
+
+	public void CreateAndAddChunk(Vector2I chunkCoord, int seed)
+	{
+		var chunk = ChunkScene.Instantiate<Chunk>();
+		chunk.Init(chunkCoord, seed);
+		chunk.Position = new Vector2(chunkCoord.X * Settings.Instance.ChunkSizePx,
+									 chunkCoord.Y * Settings.Instance.ChunkSizePx);
+		chunkContainer.AddChild(chunk);
+		chunks[chunkCoord] = chunk;
 	}
 }

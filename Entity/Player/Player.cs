@@ -6,11 +6,17 @@ public partial class Player : Area2D
 	[Export]
 	public int Speed { get; set; } = 400;
 	
+	[Export]
+	public int SprintSpeed { get; set; } = 800;
+	
 	public Vector2 ScreenSize;
 	
 	public override void _Ready()
 	{
 		ScreenSize = GetViewportRect().Size;
+		
+		Speed = Settings.Instance.PlayerBaseSpeed;
+		SprintSpeed = Settings.Instance.PlayerSprintSpeed;
 	}
 	
 	public override void _Process(double delta)
@@ -40,12 +46,24 @@ public partial class Player : Area2D
 		{
 			velocity.Y -= 1;
 		}
-
+		
+		
 		//var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
 		if (velocity.Length() > 0)
 		{
-			velocity = velocity.Normalized() * Speed;
+			velocity = velocity.Normalized();
+			
+			// Handle sprint
+			if (Input.IsActionPressed("sprint"))
+			{
+				velocity *= SprintSpeed;
+			}
+			else
+			{
+				velocity *= Speed;
+			}
+			
 			//animatedSprite2D.Play();
 		}
 		else
