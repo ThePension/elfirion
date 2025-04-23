@@ -34,10 +34,10 @@ public partial class Terrain : TileMapLayer
 	public void GenerateTerrain(Vector2I chunkCoord, int seed)
 	{
 		this.chunkCoord = chunkCoord;
-		this.data = new TileInfo[Settings.Instance.ChunkSize, Settings.Instance.ChunkSize];
+		this.data = new TileInfo[Settings.ChunkSize, Settings.ChunkSize];
 
-		int offsetX = chunkCoord.X * Settings.Instance.ChunkSize;
-		int offsetY = chunkCoord.Y * Settings.Instance.ChunkSize;
+		int offsetX = chunkCoord.X * Settings.ChunkSize;
+		int offsetY = chunkCoord.Y * Settings.ChunkSize;
 
 		// The list of tiles we want to use with the noise. Order matters !
 		List<TileInfo> tilesList =
@@ -55,9 +55,9 @@ public partial class Terrain : TileMapLayer
 		fastNoiseLite.FractalOctaves = tilesList.Count;
 		fastNoiseLite.FractalGain = 0;
 		
-		for (int x = 0; x < Settings.Instance.ChunkSize; x++)
+		for (int x = 0; x < Settings.ChunkSize; x++)
 		{
-			for (int y = 0; y < Settings.Instance.ChunkSize; y++)
+			for (int y = 0; y < Settings.ChunkSize; y++)
 			{
 				// We get the noise coordinate as an absolute value (which represents the gradient - or layer) .
 				float scale = 0.7f; // tweak between 0.01 and 0.2 depending on world size
@@ -80,32 +80,14 @@ public partial class Terrain : TileMapLayer
 	public void UpdateTile(Vector2I tileCoord)
 	{
 		// Set the mouse over tile in the terrain
-		tileCoord = new Vector2I(
-			Mathf.FloorToInt(tileCoord.X / (float)(Settings.Instance.TileSizePx)),
-			Mathf.FloorToInt(tileCoord.Y / (float)(Settings.Instance.TileSizePx))
-		);
-
-		tileCoord = new Vector2I(
-			tileCoord.X % Settings.Instance.ChunkSize,
-			tileCoord.Y % Settings.Instance.ChunkSize
-		);
-
-		// Handle negative coordinates
-		if (tileCoord.X < 0)
-		{
-			tileCoord.X += Settings.Instance.ChunkSize;
-		}
-		if (tileCoord.Y < 0)
-		{
-			tileCoord.Y += Settings.Instance.ChunkSize;
-		}
+		var localTileCoord = CoordinatesHelper.WorldToLocal(tileCoord);
 
 		
-		if (tileCoord.X >= 0 && tileCoord.X < Settings.Instance.ChunkSize && 
-			tileCoord.Y >= 0 && tileCoord.Y < Settings.Instance.ChunkSize)
+		if (localTileCoord.X >= 0 && localTileCoord.X < Settings.ChunkSize && 
+			localTileCoord.Y >= 0 && localTileCoord.Y < Settings.ChunkSize)
 		{
 			// Set the tile to grass
-			SetCell(tileCoord, TileDictionary.GRASS.SourceId, TileDictionary.GRASS.Coord);
+			SetCell(localTileCoord, TileDictionary.GRASS.SourceId, TileDictionary.GRASS.Coord);
 		}
 	}
 }

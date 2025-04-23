@@ -37,7 +37,7 @@ public partial class Map : Node2D
 	public override void _Process(double delta)
 	{
 		var player = GetNode<Node2D>("Player");
-		var newChunkCoord = WorldToChunk(player.GlobalPosition);
+		var newChunkCoord = CoordinatesHelper.WorldToChunk(player.GlobalPosition);
 
 		if (newChunkCoord != currentChunkCoord)
 		{
@@ -71,11 +71,11 @@ public partial class Map : Node2D
 			Mathf.FloorToInt(globalMousePos.Y)
 		);
 
-		var mouseChunkCoord = WorldToChunk(mousePos);
+		var mouseChunkCoord = CoordinatesHelper.WorldToChunk(mousePos);
 
 		if (chunks.ContainsKey(mouseChunkCoord))
 		{
-			highlightSprite.Position = WorldToTile(mousePos) * Settings.Instance.TileSizePx;
+			highlightSprite.Position = CoordinatesHelper.WorldToNearestTile(mousePos);
 
 			highlightSprite.Visible = true;
 
@@ -91,42 +91,13 @@ public partial class Map : Node2D
 		}
 	}
 
-	private Vector2I WorldToChunk(Vector2 pos)
-	{
-		return new Vector2I(
-			Mathf.FloorToInt(pos.X / (float)(Settings.Instance.ChunkSizePx)),
-			Mathf.FloorToInt(pos.Y / (float)(Settings.Instance.ChunkSizePx))
-		);
-	}
-
-	private Vector2I WorldToTile(Vector2 pos)
-	{
-		return new Vector2I(
-			Mathf.FloorToInt(pos.X / (float)(Settings.Instance.TileSizePx)),
-			Mathf.FloorToInt(pos.Y / (float)(Settings.Instance.TileSizePx))
-		);
-	}
-
-	/// <summary>
-	/// Converts a global chunk coordinate to a local chunk coordinate.
-	/// For example, if the chunk coordinate is (18, 18) and the chunk size is 16,
-	/// the local chunk coordinate will be (2, 2).
-	/// </summary>
-	private Vector2I GlobalChunkCoordoToLocal(Vector2I chunkCoord)
-	{
-		return new Vector2I(
-			chunkCoord.X % Settings.Instance.ChunkSize,
-			chunkCoord.Y % Settings.Instance.ChunkSize
-		);
-	}
-
 	private void UpdateChunksStacks()
 	{
 		HashSet<Vector2I> needed = new();
 
-		for (int x = -Settings.Instance.ViewDistance; x <= Settings.Instance.ViewDistance; x++)
+		for (int x = -Settings.ViewDistance; x <= Settings.ViewDistance; x++)
 		{
-			for (int y = -Settings.Instance.ViewDistance; y <= Settings.Instance.ViewDistance; y++)
+			for (int y = -Settings.ViewDistance; y <= Settings.ViewDistance; y++)
 			{
 				Vector2I chunkCoord = currentChunkCoord + new Vector2I(x, y);
 				needed.Add(chunkCoord);
@@ -153,8 +124,8 @@ public partial class Map : Node2D
 	{
 		var chunk = ChunkScene.Instantiate<Chunk>();
 		chunk.Init(chunkCoord, seed);
-		chunk.Position = new Vector2(chunkCoord.X * Settings.Instance.ChunkSizePx,
-									 chunkCoord.Y * Settings.Instance.ChunkSizePx);
+		chunk.Position = new Vector2(chunkCoord.X * Settings.ChunkSizePx,
+									 chunkCoord.Y * Settings.ChunkSizePx);
 		chunkContainer.AddChild(chunk);
 		chunks[chunkCoord] = chunk;
 	}

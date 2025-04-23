@@ -1,18 +1,18 @@
-using Godot;
 using System;
+using Godot;
 
 public partial class Settings : Node
 {
 	public static Settings Instance { get; private set; }
 
-	public int ChunkSize = 16;
-	public int TileSizePx = 16;
-	public int ViewDistance = 1;
-	public int ChunkSizePx;
+	public static int ChunkSize = 16;
+	public static int TileSizePx = 16;
+	public static int ViewDistance = 1;
+	public static int ChunkSizePx;
 
 	// Player related settings
-	public int PlayerBaseSpeed = 40;
-	public int PlayerSprintSpeed = 80;
+	public static int PlayerBaseSpeed = 40;
+	public static int PlayerSprintSpeed = 80;
 	
 	public override void _Ready() {
 		Instance = this;

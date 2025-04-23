@@ -29,9 +29,9 @@ public partial class Chunk : Node2D
 		rng.Randomize();
 
 		// Generate entities here based on Terrain data
-		for (int x = 0; x < Settings.Instance.ChunkSize; x++)
+		for (int x = 0; x < Settings.ChunkSize; x++)
 		{
-			for (int y = 0; y < Settings.Instance.ChunkSize; y++)
+			for (int y = 0; y < Settings.ChunkSize; y++)
 			{
 				// Check the tile type and generate entities accordingly
 				TileInfo tileInfo = Terrain.data[x, y];
@@ -43,7 +43,7 @@ public partial class Chunk : Node2D
 						// Generate a tree entity
 						Tree tree = GD.Load<PackedScene>("res://Entity/Tree/tree2.tscn").Instantiate<Tree>();
 
-						tree.Position = new Vector2I(x, y) * Settings.Instance.TileSizePx + ChunkCoord;
+						tree.Position = new Vector2I(x, y) * Settings.TileSizePx + ChunkCoord;
 
 						AddChild(tree);
 					}

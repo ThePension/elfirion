@@ -15,13 +15,13 @@ public partial class Player : CharacterBody2D
 	{
 		ScreenSize = GetViewportRect().Size;
 		
-		Speed = Settings.Instance.PlayerBaseSpeed;
-		SprintSpeed = Settings.Instance.PlayerSprintSpeed;
+		Speed = Settings.PlayerBaseSpeed;
+		SprintSpeed = Settings.PlayerSprintSpeed;
 	}
 	
 	public override void _Process(double delta)
 	{
-		var camera = GetViewport().GetCamera2D(); // returns the active one
+		var camera = GetViewport().GetCamera2D(); // Get the active camera
 
 		ZIndex = Mathf.RoundToInt(GlobalPosition.Y - camera.GlobalPosition.Y + 1000);
 		
@@ -65,9 +65,7 @@ public partial class Player : CharacterBody2D
 			else
 			{
 				velocity *= Speed;
-
 				
-
 				// Reset animation speed
 				animatedSprite2D.SpeedScale = 1.0f;
 			}
@@ -102,7 +100,6 @@ public partial class Player : CharacterBody2D
 			animatedSprite2D.Stop();
 		}
 		
-		// Position += velocity * (float)delta;
 		Velocity = velocity;
 		MoveAndSlide();
 	}
