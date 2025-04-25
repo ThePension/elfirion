@@ -1,11 +1,15 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Chunk : Node2D
 {
 	public Vector2I ChunkCoord { get; private set; }
 	public int Seed { get; private set; }
 	public Terrain Terrain { get; private set; }
+	public Dictionary<Vector2I, Entity> Entities { get; private set; } = new();
+
+	private Label DebugLabel;
 
 	public void Init(Vector2I chunkCoord, int seed)
 	{
@@ -16,6 +20,15 @@ public partial class Chunk : Node2D
 	public override void _Ready()
 	{
 		Terrain = GetNode<Terrain>("Terrain");
+
+		DebugLabel = GetNode<Label>("DebugLabel");
+		DebugLabel.Text = $"Chunk : {ChunkCoord} \n"
+						+ $"Seed: {Seed}";
+
+		DebugLabel.ZIndex = 1000;
+
+		DebugLabel.Visible = Settings.DisplayDebugInfo;
+
 		GenerateChunk();
 	}
 
@@ -43,7 +56,9 @@ public partial class Chunk : Node2D
 						// Generate a tree entity
 						Tree tree = GD.Load<PackedScene>("res://Entity/Tree/tree2.tscn").Instantiate<Tree>();
 
-						tree.Position = new Vector2I(x, y) * Settings.TileSizePx + ChunkCoord;
+						tree.Init(new Vector2I(x, y), new Vector2I(x, y) * Settings.TileSizePx, ChunkCoord);
+
+						Entities.Add(new Vector2I(x, y), tree);
 
 						AddChild(tree);
 					}
@@ -55,5 +70,19 @@ public partial class Chunk : Node2D
 	public void UpdateTileInChunk(Vector2I tileCoord)
 	{
 		Terrain.UpdateTile(tileCoord);
+	}
+
+	public Entity GetEntityAt(Vector2I globalTileCoord)
+	{
+		var localCoord = CoordinatesHelper.WorldToLocal(globalTileCoord);
+
+		if (Entities.ContainsKey(localCoord))
+		{
+			return Entities[localCoord];
+		}
+		else
+		{
+			return null;
+		}
 	}
 }

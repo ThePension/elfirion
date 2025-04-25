@@ -13,6 +13,8 @@ public partial class Map : Node2D
 	private Stack<Vector2I> chunksToAdd = new();
 	private Stack<Vector2I> chunksToRemove = new();
 
+	private Player player;
+
 	private Vector2I currentChunkCoord = Vector2I.Zero;
 
 	private MainLabel mainDebugLabel;
@@ -23,6 +25,8 @@ public partial class Map : Node2D
 	{
 		chunkContainer = GetNode<Node2D>("ChunkContainer");
 		mainDebugLabel = GetNode<MainLabel>("Player/DebugInfo/MainLabel");
+
+		player = GetNode<Player>("Player");
 
 		highlightSprite = GetNode<Polygon2D>("ChunkContainer/HighlightSprite");
 
@@ -36,7 +40,7 @@ public partial class Map : Node2D
 
 	public override void _Process(double delta)
 	{
-		var player = GetNode<Node2D>("Player");
+		var player = GetNode<Player>("Player");
 		var newChunkCoord = CoordinatesHelper.WorldToChunk(player.GlobalPosition);
 
 		if (newChunkCoord != currentChunkCoord)
@@ -79,10 +83,25 @@ public partial class Map : Node2D
 
 			highlightSprite.Visible = true;
 
+			Entity? entity = chunks[mouseChunkCoord].GetEntityAt(mousePos);
+
+			if (entity == null) {
+				return;
+			}
+
 			// If the mouse is clicked, update the tile in the chunk
 			if (Input.IsActionJustPressed("mouse_left_click"))
 			{
-				chunks[mouseChunkCoord].UpdateTileInChunk(mousePos);
+				GD.Print($"Entity at {mousePos} is {entity}");
+
+				entity.Interact(player);
+			}
+
+			if (Input.IsActionJustPressed("mouse_right_click"))
+			{
+				GD.Print($"Entity at {mousePos} is {entity}");
+
+				entity.ToggleDisplayDebugInfo();
 			}
 		}
 		else

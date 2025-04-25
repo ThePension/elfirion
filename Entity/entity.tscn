@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dl3iwa2poeaho"]
+[gd_scene load_steps=4 format=3 uid="uid://dl3iwa2poeaho"]
 
 [ext_resource type="Script" uid="uid://dqvpxhc88gphv" path="res://Entity/Entity.cs" id="1_6e8rh"]
+[ext_resource type="LabelSettings" uid="uid://larldh40hj0q" path="res://Common/debug_label_settings.tres" id="2_sxyjl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4wwvo"]
 size = Vector2(8, 9)
@@ -14,3 +15,8 @@ y_sort_enabled = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_4wwvo")
+
+[node name="DebugLabel" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+label_settings = ExtResource("2_sxyjl")

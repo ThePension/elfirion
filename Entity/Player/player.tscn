@@ -150,12 +150,12 @@ metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 y_sort_enabled = true
-position = Vector2(8, 19)
+position = Vector2(8, 2)
 shape = SubResource("RectangleShape2D_0e48y")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(8, 13)
+position = Vector2(8, -3)
 sprite_frames = SubResource("SpriteFrames_6pvm4")
 animation = &"walking_down"

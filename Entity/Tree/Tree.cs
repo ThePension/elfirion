@@ -4,8 +4,19 @@ using System;
 public partial class Tree : Entity
 {
 	public override void _Process(double delta) {
-		var camera = GetViewport().GetCamera2D(); // returns the active one
+		// Call the base class process method
+		base._Process(delta);
+		// Add any additional processing for the tree here
+	}
 
-		ZIndex = Mathf.RoundToInt(GlobalPosition.Y - camera.GlobalPosition.Y + 1000);
+	public override void Interact(Player player)
+	{
+		player.Inventory.AddItem("wood", 1);
+
+		GD.Print($"Player interacted with tree at {GlobalPosition}");
+
+		GD.Print($"Player Inventory: {player.Inventory}");
+
+		QueueFree(); // Remove the tree
 	}
 }

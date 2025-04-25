@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://k7xqols0r7oj"]
+[gd_scene load_steps=5 format=3 uid="uid://k7xqols0r7oj"]
 
 [ext_resource type="Script" uid="uid://dud50rjsn8dxm" path="res://World/Chunk/Chunk.cs" id="1_410mw"]
 [ext_resource type="TileSet" uid="uid://v280ekacc8wi" path="res://tile_set.tres" id="1_s3wkh"]
 [ext_resource type="Script" uid="uid://bv6xnbnv18la6" path="res://World/Chunk/Terrain.cs" id="2_r8y4k"]
+[ext_resource type="LabelSettings" uid="uid://larldh40hj0q" path="res://Common/debug_label_settings.tres" id="4_l5igf"]
 
 [node name="Chunk" type="Node2D"]
 script = ExtResource("1_410mw")
@@ -15,3 +16,8 @@ y_sort_enabled = true
 y_sort_enabled = true
 tile_set = ExtResource("1_s3wkh")
 script = ExtResource("2_r8y4k")
+
+[node name="DebugLabel" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+label_settings = ExtResource("4_l5igf")
