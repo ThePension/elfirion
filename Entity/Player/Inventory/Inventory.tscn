@@ -1,12 +1,45 @@
-[gd_scene format=3 uid="uid://5em3utclhfwu"]
+[gd_scene load_steps=5 format=3 uid="uid://5em3utclhfwu"]
 
-[node name="Container" type="Control"]
+[ext_resource type="Script" uid="uid://bb7nom2axdpk5" path="res://Entity/Player/Inventory/Inventory.cs" id="1_xnpsp"]
+[ext_resource type="Texture2D" uid="uid://olujhi13e583" path="res://Item/ItemAtlas.tres" id="2_tjcpe"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0en4y"]
+atlas = ExtResource("2_tjcpe")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sf2m2"]
+atlas = ExtResource("2_tjcpe")
+region = Rect2(32, 64, 32, 32)
+
+[node name="Inventory" type="Control"]
+layout_direction = 2
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
-offset_bottom = 40.0
+offset_bottom = 2084.0
+script = ExtResource("1_xnpsp")
 
-[node name="ItemList" type="ItemList" parent="."]
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 1
+offset_right = 150.0
+offset_bottom = 896.0
+horizontal_scroll_mode = 3
+
+[node name="ItemList" type="ItemList" parent="ScrollContainer"]
+z_index = 4096
 layout_mode = 2
-offset_right = 40.0
-offset_bottom = 40.0
+size_flags_vertical = 8
+allow_search = false
+auto_width = true
+auto_height = true
+item_count = 2
+same_column_width = true
+fixed_column_width = 100
+icon_mode = 0
+item_0/text = "1"
+item_0/icon = SubResource("AtlasTexture_0en4y")
+item_0/selectable = false
+item_1/text = "2"
+item_1/icon = SubResource("AtlasTexture_sf2m2")
+item_1/selectable = false

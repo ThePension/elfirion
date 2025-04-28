@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Player : CharacterBody2D
+public partial class Companion : CharacterBody2D
 {
 	[Export]
 	public int Speed { get; set; } = 400;

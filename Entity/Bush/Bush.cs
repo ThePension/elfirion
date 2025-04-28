@@ -1,15 +1,15 @@
 using Godot;
 using System;
 
-public partial class Tree : Entity
+public partial class Bush : Entity
 {
 	public override void _Process(double delta) {
 		base._Process(delta);
 	}
 
 	public void Init(Vector2I localPosition, Vector2I globalPosition, Vector2I chunkCoord) {
-		base.Init(localPosition, globalPosition, chunkCoord, 100.0);
-	}
+		base.Init(localPosition, globalPosition, chunkCoord, 30.0);
+	} 
 
 	public override void Interact(Player player)
 	{
@@ -28,14 +28,13 @@ public partial class Tree : Entity
 			return;
 		}
 		
-		player.Inventory.AddItem("stick", 4);
-		player.Inventory.AddItem("log", 2);
-		
+		player.Inventory.AddItem("stick", 1);
+
 		// Small chance of dropping an apple
-		// if (GD.Randf() < 0.1f) // 10% chance to drop an apple
-		// {
+		if (GD.Randf() < 0.1f) // 10% chance to drop an apple
+		{
 			player.Inventory.AddItem("apple", 1);
-		// }
+		}
 
 		QueueFree(); // Remove the tree
 	}

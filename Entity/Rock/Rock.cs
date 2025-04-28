@@ -1,15 +1,15 @@
 using Godot;
 using System;
 
-public partial class Tree : Entity
+public partial class Rock : Entity
 {
 	public override void _Process(double delta) {
 		base._Process(delta);
 	}
 
 	public void Init(Vector2I localPosition, Vector2I globalPosition, Vector2I chunkCoord) {
-		base.Init(localPosition, globalPosition, chunkCoord, 100.0);
-	}
+		base.Init(localPosition, globalPosition, chunkCoord, 50.0);
+	} 
 
 	public override void Interact(Player player)
 	{
@@ -19,7 +19,7 @@ public partial class Tree : Entity
 			return;
 		}
 
-		this.Health -= 25.0; // Decrease tree health by 10
+		this.Health -= 5.0; // Decrease tree health by 10
 		HealhBar.Value = this.Health;
 
 		HealhBar.Visible = true;
@@ -28,14 +28,7 @@ public partial class Tree : Entity
 			return;
 		}
 		
-		player.Inventory.AddItem("stick", 4);
-		player.Inventory.AddItem("log", 2);
-		
-		// Small chance of dropping an apple
-		// if (GD.Randf() < 0.1f) // 10% chance to drop an apple
-		// {
-			player.Inventory.AddItem("apple", 1);
-		// }
+		player.Inventory.AddItem("rock", 2);
 
 		QueueFree(); // Remove the tree
 	}

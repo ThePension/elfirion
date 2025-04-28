@@ -51,16 +51,32 @@ public partial class Chunk : Node2D
 
 				if (tileInfo != null && tileInfo.SourceId == 0)
 				{
-					if (rng.Randf() < 0.1f) // 10% chance to spawn a tree
+					Entity? entity = null;
+
+					if (rng.Randf() < 0.05f) // 10% chance to spawn a tree
 					{
 						// Generate a tree entity
-						Tree tree = GD.Load<PackedScene>("res://Entity/Tree/tree2.tscn").Instantiate<Tree>();
+						entity = GD.Load<PackedScene>("res://Entity/Tree/tree2.tscn").Instantiate<Tree>();
 
-						tree.Init(new Vector2I(x, y), new Vector2I(x, y) * Settings.TileSizePx, ChunkCoord);
+					}
+					else if (rng.Randf() < 0.05f) // 10% chance to spawn a bush
+					{
+						// Generate a bush entity
+						entity = GD.Load<PackedScene>("res://Entity/Bush/bush.tscn").Instantiate<Bush>();
+					}
+					else if (rng.Randf() < 0.05f) // 10% chance to spawn a rock
+					{
+						// Generate a rock entity
+						entity = GD.Load<PackedScene>("res://Entity/Rock/rock.tscn").Instantiate<Rock>();
+					}
 
-						Entities.Add(new Vector2I(x, y), tree);
+					if (entity != null)
+					{
+						entity.Init(new Vector2I(x, y), new Vector2I(x, y) * Settings.TileSizePx, ChunkCoord);
 
-						AddChild(tree);
+						Entities.Add(new Vector2I(x, y), entity);
+
+						AddChild(entity);
 					}
 				}
 			}

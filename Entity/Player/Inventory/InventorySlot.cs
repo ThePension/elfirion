@@ -11,5 +11,5 @@ public class InventorySlot
 	public Item Item;
 	public int Count;
 
-	public bool IsFull => Count >= Item.MaxStackSize;
+	public double Weight => Item.Weight * Count;
 }

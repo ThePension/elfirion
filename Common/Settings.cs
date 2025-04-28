@@ -15,7 +15,7 @@ public partial class Settings : Node
 	public static int PlayerSprintSpeed = 80;
 
 	// Entity related settings
-	public static bool DisplayDebugInfo = true;
+	public static bool DisplayDebugInfo = false;
 	
 	public override void _Ready() {
 		Instance = this;
