@@ -17,6 +17,8 @@ public partial class Map : Node2D
 
 	private Vector2I currentChunkCoord = Vector2I.Zero;
 
+	private Texture2D CustomMouseCursor;
+
 	private MainLabel mainDebugLabel;
 
 	private Polygon2D highlightSprite;
@@ -29,6 +31,8 @@ public partial class Map : Node2D
 		player = GetNode<Player>("Player");
 
 		highlightSprite = GetNode<Polygon2D>("ChunkContainer/HighlightSprite");
+
+		CustomMouseCursor = GD.Load<Texture2D>("res://assets/ui/cross.png");
 
 		RandomNumberGenerator rng = new();
 		rng.Randomize();
@@ -66,6 +70,15 @@ public partial class Map : Node2D
 				chunks.Remove(chunkCoord);
 			}
 		}
+
+		// Mouse interactions
+
+		// TODO : Try to improve this
+		// The mouse interactions with entities should not be handled this way
+		// It should be handled by the entity itself, using signals
+		if (player.Inventory.IsInventoryOpen()) {
+			return; // TODO : Try to improve this
+		}
 		
 		Vector2 globalMousePos = GetGlobalMousePosition();
 
@@ -74,6 +87,22 @@ public partial class Map : Node2D
 			Mathf.FloorToInt(globalMousePos.X),
 			Mathf.FloorToInt(globalMousePos.Y)
 		);
+
+		// If the mouse is too far from the player, don't do anything, and change the highlight color to red
+		if (globalMousePos.DistanceSquaredTo(player.GetGlobalPositionCentered()) > Settings.InteractionDistance * Settings.InteractionDistance)
+		{
+			// Set the highlight sprite to red
+			highlightSprite.Visible = false;
+			highlightSprite.Modulate = new Color(1, 0, 0, 0.5f);
+			highlightSprite.Position = CoordinatesHelper.WorldToNearestTile(mousePos);
+			highlightSprite.Visible = true;
+
+			return;
+		}
+		else {
+			// Set the highlight sprite to white
+			highlightSprite.Modulate = new Color(1, 1, 1, 0.5f);
+		}
 
 		var mouseChunkCoord = CoordinatesHelper.WorldToChunk(mousePos);
 

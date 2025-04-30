@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bpmqdiplg7y0p"
-path="res://.godot/imported/enemySwimming_2.png-938772f8a3411b8b7b3dda028b55573d.ctex"
+uid="uid://c0i6leyw648ba"
+path="res://.godot/imported/PC Computer - Stardew Valley - Dog Blonde.png-5b2426c726f36a40eacc0fd6feb76037.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/enemySwimming_2.png"
-dest_files=["res://.godot/imported/enemySwimming_2.png-938772f8a3411b8b7b3dda028b55573d.ctex"]
+source_file="res://Entity/Companion/PC Computer - Stardew Valley - Dog Blonde.png"
+dest_files=["res://.godot/imported/PC Computer - Stardew Valley - Dog Blonde.png-5b2426c726f36a40eacc0fd6feb76037.ctex"]
 
 [params]
 

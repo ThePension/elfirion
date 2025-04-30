@@ -13,6 +13,7 @@ public partial class Settings : Node
 	// Player related settings
 	public static int PlayerBaseSpeed = 40;
 	public static int PlayerSprintSpeed = 80;
+	public static float InteractionDistance = TileSizePx * 2.5f; // Distance to interact with objects
 
 	// Entity related settings
 	public static bool DisplayDebugInfo = false;

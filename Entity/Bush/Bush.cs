@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class Bush : Entity
 {
@@ -19,7 +18,17 @@ public partial class Bush : Entity
 			return;
 		}
 
-		this.Health -= 25.0; // Decrease tree health by 10
+		if (player.Inventory.SelectedItem?.Type == ItemTypes.Axe)
+		{
+			this.Health -= 50.0; // Decrease tree health by 10
+		}
+		else
+		{
+			this.Health -= 25.0; // Decrease tree health by 50
+		}
+
+		Shake();
+
 		HealhBar.Value = this.Health;
 
 		HealhBar.Visible = true;
@@ -28,12 +37,12 @@ public partial class Bush : Entity
 			return;
 		}
 		
-		player.Inventory.AddItem("stick", 1);
+		player.Inventory.AddItem(ItemTypes.Stick, 1);
 
 		// Small chance of dropping an apple
 		if (GD.Randf() < 0.1f) // 10% chance to drop an apple
 		{
-			player.Inventory.AddItem("apple", 1);
+			player.Inventory.AddItem(ItemTypes.Apple, 1);
 		}
 
 		QueueFree(); // Remove the tree

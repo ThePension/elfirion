@@ -7,69 +7,64 @@ public partial class Companion : CharacterBody2D
 	public int Speed { get; set; } = 400;
 	
 	[Export]
-	public int SprintSpeed { get; set; } = 800;
+	public float FollowDistance { get; set; } = 50f; // Minimum distance to player
 	
-	public Vector2 ScreenSize;
+	private Player player;
+	private AnimatedSprite2D animatedSprite2D;
+	private NavigationAgent2D agent;
 
-	public Inventory Inventory { get; set; }
-	
 	public override void _Ready()
 	{
-		// Initialize the inventory
-		Inventory = GetNode<Inventory>("Inventory");
+		player = GetTree().Root.GetNode<Player>("Map/Player"); // Path to your player node
+		animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		agent = GetNode<NavigationAgent2D>("NavigationAgent2D");
 
-		ScreenSize = GetViewportRect().Size;
-		
 		Speed = Settings.PlayerBaseSpeed;
-		SprintSpeed = Settings.PlayerSprintSpeed;
+		
+		agent.MaxSpeed = Speed;
+		agent.PathDesiredDistance = 8f; // Acceptable "close to target" distance
+		agent.TargetDesiredDistance = FollowDistance;
 	}
 	
 	public override void _PhysicsProcess(double delta)
+{
+	var camera = GetViewport().GetCamera2D();
+	ZIndex = Mathf.RoundToInt(GlobalPosition.Y - camera.GlobalPosition.Y + 1000);
+
+	if (player == null || agent == null)
+		return;
+
+	float distance = GlobalPosition.DistanceTo(player.GlobalPosition);
+
+	if (distance > FollowDistance)
 	{
-		var camera = GetViewport().GetCamera2D();
-		ZIndex = Mathf.RoundToInt(GlobalPosition.Y - camera.GlobalPosition.Y + 1000);
-
-		var input = Vector2.Zero;
-
-		if (Input.IsActionPressed("move_right")) input.X += 1;
-		if (Input.IsActionPressed("move_left")) input.X -= 1;
-		if (Input.IsActionPressed("move_down")) input.Y += 1;
-		if (Input.IsActionPressed("move_up")) input.Y -= 1;
-
-		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-
-		if (input != Vector2.Zero)
+		// Dynamically update target position
+		if (player.GlobalPosition.DistanceTo(agent.TargetPosition) > 8f)
 		{
-			input = input.Normalized();
+			agent.TargetPosition = player.GlobalPosition;
+		}
 
-			if (Input.IsActionPressed("sprint"))
-			{
-				Velocity = input * SprintSpeed;
-				animatedSprite2D.SpeedScale = 1.5f;
-			}
-			else
-			{
-				Velocity = input * Speed;
-				animatedSprite2D.SpeedScale = 1.0f;
-			}
+		Vector2 nextPathPos = agent.GetNextPathPosition();
+		Vector2 direction = (nextPathPos - GlobalPosition).Normalized();
+		Velocity = direction * Speed;
 
-			// Set animation based on direction
-			if (Mathf.Abs(input.X) > Mathf.Abs(input.Y))
-			{
-				animatedSprite2D.Play(input.X > 0 ? "walking_right" : "walking_left");
-			}
-			else
-			{
-				animatedSprite2D.Play(input.Y > 0 ? "walking_down" : "walking_up");
-			}
+		// === HANDLE ANIMATION BASED ON DIRECTION ===
+		if (Mathf.Abs(direction.X) > Mathf.Abs(direction.Y))
+		{
+			animatedSprite2D.Play(direction.X > 0 ? "walking_right" : "walking_left");
 		}
 		else
 		{
-			Velocity = Vector2.Zero;
-			animatedSprite2D.Stop();
+			animatedSprite2D.Play(direction.Y > 0 ? "walking_down" : "walking_up");
 		}
-
-		MoveAndSlide();
 	}
+	else
+	{
+		Velocity = Vector2.Zero;
+		animatedSprite2D.Stop();
+	}
+
+	MoveAndSlide();
+}
 
 }

@@ -11,6 +11,8 @@ public partial class Entity : StaticBody2D
 	protected Label DebugLabel;
 	protected ProgressBar HealhBar;
 
+	protected Tween? tween;
+
 	public override void _Ready() {
 		DebugLabel = GetNode<Label>("DebugLabel");
 		DebugLabel.Text = $"Entity ({GetType().Name}) \n" +
@@ -50,4 +52,22 @@ public partial class Entity : StaticBody2D
 	public virtual void Interact(Player player) { }
 	
 	public virtual void SaveState() { }
+
+
+	public virtual void Shake()
+	{
+		// Implement the shake logic here
+		// For example, you can use a tween to animate the position of the tree
+		if (tween != null)
+		{
+			// Stop the animation and reset the position
+			tween.Stop();
+			Position = new Vector2(Position.X, Position.Y + 1);
+			tween = null;
+		}
+
+		tween = CreateTween();
+		tween.TweenProperty(this, "position", Position + new Vector2(0, -1), 0.1f);
+		tween.TweenProperty(this, "position", Position, 0.1f).SetDelay(0.1f);		
+	}
 }

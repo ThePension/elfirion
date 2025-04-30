@@ -1,6 +1,6 @@
 using Godot;
-using System;
 
+// TODO : Refactor this class, should inherit from Entity
 public partial class Player : CharacterBody2D
 {
 	[Export]
@@ -12,11 +12,17 @@ public partial class Player : CharacterBody2D
 	public Vector2 ScreenSize;
 
 	public Inventory Inventory { get; set; }
+
+	public ItemTypes SelectedItemType { get; set; } = ItemTypes.None;
 	
 	public override void _Ready()
 	{
 		// Initialize the inventory
 		Inventory = GetNode<Inventory>("Inventory");
+
+		// Add pickaxe and axe to the inventory
+		Inventory.AddItem(ItemTypes.Pickaxe);
+		Inventory.AddItem(ItemTypes.Axe);
 
 		ScreenSize = GetViewportRect().Size;
 		
@@ -26,6 +32,11 @@ public partial class Player : CharacterBody2D
 	
 	public override void _PhysicsProcess(double delta)
 	{
+		if (Inventory.IsInventoryOpen())
+		{
+			return; // TODO : Try to improve this
+		}
+
 		var camera = GetViewport().GetCamera2D();
 		ZIndex = Mathf.RoundToInt(GlobalPosition.Y - camera.GlobalPosition.Y + 1000);
 
@@ -70,6 +81,11 @@ public partial class Player : CharacterBody2D
 		}
 
 		MoveAndSlide();
+	}
+
+	public Vector2 GetGlobalPositionCentered()
+	{
+		return GlobalPosition + new Vector2(Settings.TileSizePx / 2, Settings.TileSizePx / 2);
 	}
 
 }

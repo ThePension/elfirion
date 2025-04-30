@@ -1,11 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://c3rgk4niwdhtp"]
+[gd_scene load_steps=9 format=3 uid="uid://c3rgk4niwdhtp"]
 
-[ext_resource type="PackedScene" uid="uid://dl3iwa2poeaho" path="res://Entity/entity.tscn" id="1_tpcsv"]
-[ext_resource type="Script" uid="uid://dnxcaofpt8qr" path="res://Entity/Tree/Tree.cs" id="2_rcmwt"]
-[ext_resource type="Texture2D" uid="uid://c8wap683fg75x" path="res://assets/tilesets/Basic_Grass_Biom_things.png" id="3_rcmwt"]
+[ext_resource type="PackedScene" uid="uid://dl3iwa2poeaho" path="res://Entity/entity.tscn" id="1_cks55"]
+[ext_resource type="Script" uid="uid://dnxcaofpt8qr" path="res://Entity/Tree/Tree.cs" id="2_440gu"]
+[ext_resource type="Texture2D" uid="uid://c8wap683fg75x" path="res://assets/tilesets/Basic_Grass_Biom_things.png" id="3_34jfn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rcmwt"]
-atlas = ExtResource("3_rcmwt")
+atlas = ExtResource("3_34jfn")
 region = Rect2(0, 0, 16, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rcmwt"]
@@ -17,8 +17,12 @@ bg_color = Color(1, 0.729412, 0.682353, 0.67451)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e6ehd"]
 bg_color = Color(1, 0.0117647, 0, 0.823529)
 
-[node name="Tree" instance=ExtResource("1_tpcsv")]
-script = ExtResource("2_rcmwt")
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cks55"]
+size = Vector2(14, 29)
+
+[node name="Tree" instance=ExtResource("1_cks55")]
+input_pickable = true
+script = ExtResource("2_440gu")
 
 [node name="Sprite2D" parent="." index="0"]
 position = Vector2(8, -1)
@@ -41,3 +45,11 @@ offset_bottom = 12.0
 theme_override_styles/background = SubResource("StyleBoxFlat_rcmwt")
 theme_override_styles/fill = SubResource("StyleBoxFlat_e6ehd")
 show_percentage = false
+
+[node name="Area2D" type="Area2D" parent="." index="4"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
+position = Vector2(8, -2.5)
+shape = SubResource("RectangleShape2D_cks55")
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]

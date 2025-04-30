@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://5em3utclhfwu"]
+[gd_scene load_steps=6 format=3 uid="uid://5em3utclhfwu"]
 
 [ext_resource type="Script" uid="uid://bb7nom2axdpk5" path="res://Entity/Player/Inventory/Inventory.cs" id="1_xnpsp"]
 [ext_resource type="Texture2D" uid="uid://olujhi13e583" path="res://Item/ItemAtlas.tres" id="2_tjcpe"]
+[ext_resource type="Texture2D" uid="uid://c2j53hodkvya8" path="res://assets/items/axe.png" id="3_1hf7f"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0en4y"]
 atlas = ExtResource("2_tjcpe")
@@ -12,6 +13,7 @@ atlas = ExtResource("2_tjcpe")
 region = Rect2(32, 64, 32, 32)
 
 [node name="Inventory" type="Control"]
+z_index = 4096
 layout_direction = 2
 layout_mode = 3
 anchors_preset = 0
@@ -19,14 +21,22 @@ offset_right = 40.0
 offset_bottom = 2084.0
 script = ExtResource("1_xnpsp")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="ListPanel" type="Panel" parent="."]
+z_index = 4096
+layout_mode = 0
+offset_left = 191.0
+offset_top = 22.0
+offset_right = 1343.0
+offset_bottom = 838.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ListPanel"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 1
-offset_right = 150.0
-offset_bottom = 896.0
+offset_right = 1163.0
+offset_bottom = 813.0
 horizontal_scroll_mode = 3
 
-[node name="ItemList" type="ItemList" parent="ScrollContainer"]
+[node name="ItemList" type="ItemList" parent="ListPanel/ScrollContainer"]
 z_index = 4096
 layout_mode = 2
 size_flags_vertical = 8
@@ -34,6 +44,7 @@ allow_search = false
 auto_width = true
 auto_height = true
 item_count = 2
+max_columns = 11
 same_column_width = true
 fixed_column_width = 100
 icon_mode = 0
@@ -43,3 +54,22 @@ item_0/selectable = false
 item_1/text = "2"
 item_1/icon = SubResource("AtlasTexture_sf2m2")
 item_1/selectable = false
+
+[node name="SelectedItemPanel" type="Panel" parent="."]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 0
+offset_left = 192.0
+offset_top = 873.0
+offset_right = 256.0
+offset_bottom = 937.0
+
+[node name="ItemTexture" type="TextureRect" parent="SelectedItemPanel"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 13.0
+offset_right = 53.0
+offset_bottom = 53.0
+texture = ExtResource("3_1hf7f")
+
+[connection signal="item_activated" from="ListPanel/ScrollContainer/ItemList" to="." method="OnItemActivated"]
+[connection signal="item_selected" from="ListPanel/ScrollContainer/ItemList" to="." method="OnItemSelected"]

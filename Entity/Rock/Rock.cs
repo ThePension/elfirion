@@ -19,7 +19,17 @@ public partial class Rock : Entity
 			return;
 		}
 
-		this.Health -= 5.0; // Decrease tree health by 10
+		if (player.Inventory.SelectedItem?.Type == ItemTypes.Pickaxe)
+		{
+			this.Health -= 25.0; // Decrease tree health by 50
+		} 
+		else
+		{
+			this.Health -= 5.0; // Decrease tree health by 10
+		}
+
+		Shake();
+		
 		HealhBar.Value = this.Health;
 
 		HealhBar.Visible = true;
@@ -28,7 +38,7 @@ public partial class Rock : Entity
 			return;
 		}
 		
-		player.Inventory.AddItem("rock", 2);
+		player.Inventory.AddItem(ItemTypes.Rock, 2);
 
 		QueueFree(); // Remove the tree
 	}

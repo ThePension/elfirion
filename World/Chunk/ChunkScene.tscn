@@ -1,9 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://k7xqols0r7oj"]
+[gd_scene load_steps=6 format=3 uid="uid://k7xqols0r7oj"]
 
 [ext_resource type="Script" uid="uid://dud50rjsn8dxm" path="res://World/Chunk/Chunk.cs" id="1_410mw"]
 [ext_resource type="TileSet" uid="uid://v280ekacc8wi" path="res://tile_set.tres" id="1_s3wkh"]
 [ext_resource type="Script" uid="uid://bv6xnbnv18la6" path="res://World/Chunk/Terrain.cs" id="2_r8y4k"]
 [ext_resource type="LabelSettings" uid="uid://larldh40hj0q" path="res://Common/debug_label_settings.tres" id="4_l5igf"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_l5igf"]
+vertices = PackedVector2Array(6997.5, -1615.59, 6692.55, 4332.88, -4090.87, 3134.28, -2932.04, -2195.52)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-2940, -2206, -4103, 3143, 6702, 4344, 7008, -1625)])
 
 [node name="Chunk" type="Node2D"]
 script = ExtResource("1_410mw")
@@ -18,6 +23,10 @@ tile_set = ExtResource("1_s3wkh")
 script = ExtResource("2_r8y4k")
 
 [node name="DebugLabel" type="Label" parent="."]
+visible = false
 offset_right = 40.0
 offset_bottom = 23.0
 label_settings = ExtResource("4_l5igf")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_l5igf")

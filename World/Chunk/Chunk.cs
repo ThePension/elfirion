@@ -56,7 +56,7 @@ public partial class Chunk : Node2D
 					if (rng.Randf() < 0.05f) // 10% chance to spawn a tree
 					{
 						// Generate a tree entity
-						entity = GD.Load<PackedScene>("res://Entity/Tree/tree2.tscn").Instantiate<Tree>();
+						entity = GD.Load<PackedScene>("res://Entity/Tree/tree.tscn").Instantiate<Tree>();
 
 					}
 					else if (rng.Randf() < 0.05f) // 10% chance to spawn a bush

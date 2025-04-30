@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://bab8dc7b7rr6e"]
+[gd_scene load_steps=7 format=3 uid="uid://bab8dc7b7rr6e"]
 
 [ext_resource type="Script" uid="uid://dgbc28yv3lxsh" path="res://World/Map.cs" id="1_e0an3"]
 [ext_resource type="PackedScene" uid="uid://k7xqols0r7oj" path="res://World/Chunk/ChunkScene.tscn" id="2_e0an3"]
 [ext_resource type="PackedScene" uid="uid://byjhkgsumdtkc" path="res://Entity/Player/player.tscn" id="2_wijl4"]
 [ext_resource type="PackedScene" uid="uid://j571tiauysv1" path="res://debug_info.tscn" id="4_p5pve"]
 [ext_resource type="PackedScene" uid="uid://5em3utclhfwu" path="res://Entity/Player/Inventory/Inventory.tscn" id="5_krxrc"]
+[ext_resource type="PackedScene" uid="uid://cvf1k6jfh8b8i" path="res://Entity/Companion/Companion.tscn" id="6_a7eae"]
 
 [node name="Map" type="Node2D"]
 y_sort_enabled = true
@@ -44,3 +45,6 @@ offset_top = -119.0
 offset_right = -92.0
 offset_bottom = 408.0
 scale = Vector2(0.25, 0.25)
+
+[node name="Companion" parent="." instance=ExtResource("6_a7eae")]
+position = Vector2(-32, -1)

@@ -19,7 +19,17 @@ public partial class Tree : Entity
 			return;
 		}
 
-		this.Health -= 25.0; // Decrease tree health by 10
+		if (player.Inventory.SelectedItem?.Type == ItemTypes.Axe)
+		{
+			this.Health -= 50.0; // Decrease tree health by 10
+		}
+		else
+		{
+			this.Health -= 25.0; // Decrease tree health by 50
+		}
+
+		Shake();
+
 		HealhBar.Value = this.Health;
 
 		HealhBar.Visible = true;
@@ -28,15 +38,22 @@ public partial class Tree : Entity
 			return;
 		}
 		
-		player.Inventory.AddItem("stick", 4);
-		player.Inventory.AddItem("log", 2);
+		player.Inventory.AddItem(ItemTypes.Stick, 4);
+		player.Inventory.AddItem(ItemTypes.Log, 2);
 		
 		// Small chance of dropping an apple
 		// if (GD.Randf() < 0.1f) // 10% chance to drop an apple
 		// {
-			player.Inventory.AddItem("apple", 1);
+			player.Inventory.AddItem(ItemTypes.Apple, 1);
 		// }
 
 		QueueFree(); // Remove the tree
+	}
+
+	public void _on_area_2d_mouse_entered() {
+		GD.Print("Mouse entered area at " + GlobalPosition);
+
+		// Stop propagating the signal
+		GetViewport().SetInputAsHandled();
 	}
 }
