@@ -53,21 +53,26 @@ public partial class Chunk : Node2D
 				{
 					Entity? entity = null;
 
-					if (rng.Randf() < 0.05f) // 10% chance to spawn a tree
+					if (rng.Randf() < Settings.TreeSpawnRate) // 10% chance to spawn a tree
 					{
 						// Generate a tree entity
 						entity = GD.Load<PackedScene>("res://Entity/Tree/tree.tscn").Instantiate<Tree>();
 
 					}
-					else if (rng.Randf() < 0.05f) // 10% chance to spawn a bush
+					else if (rng.Randf() < Settings.BushSpawnRate) // 10% chance to spawn a bush
 					{
 						// Generate a bush entity
 						entity = GD.Load<PackedScene>("res://Entity/Bush/bush.tscn").Instantiate<Bush>();
 					}
-					else if (rng.Randf() < 0.05f) // 10% chance to spawn a rock
+					else if (rng.Randf() < Settings.RockSpawnRate) // 10% chance to spawn a rock
 					{
 						// Generate a rock entity
 						entity = GD.Load<PackedScene>("res://Entity/Rock/rock.tscn").Instantiate<Rock>();
+					}
+					else if (rng.Randf() < Settings.EnnemySpawnRate) // 10% chance to spawn a flower
+					{
+						// Generate a flower entity
+						entity = GD.Load<PackedScene>("res://Entity/Ennemy/Ennemy.tscn").Instantiate<Ennemy>();
 					}
 
 					if (entity != null)

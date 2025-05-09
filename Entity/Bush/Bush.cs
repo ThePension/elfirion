@@ -12,6 +12,8 @@ public partial class Bush : Entity
 
 	public override void Interact(Player player)
 	{
+		base.Interact(player);
+
 		if (player == null)
 		{
 			GD.PrintErr("Player is null");

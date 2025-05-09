@@ -49,15 +49,17 @@ public partial class Entity : StaticBody2D
 
 	public virtual void Interact(Entity other) { }
 
-	public virtual void Interact(Player player) { }
+	public virtual void Interact(Player player) {
+		if (player.Inventory.SelectedItem != null) {
+			player.UseItem(player.Inventory.SelectedItem);
+		}
+	 }
 	
 	public virtual void SaveState() { }
 
 
 	public virtual void Shake()
 	{
-		// Implement the shake logic here
-		// For example, you can use a tween to animate the position of the tree
 		if (tween != null)
 		{
 			// Stop the animation and reset the position
@@ -69,5 +71,40 @@ public partial class Entity : StaticBody2D
 		tween = CreateTween();
 		tween.TweenProperty(this, "position", Position + new Vector2(0, -1), 0.1f);
 		tween.TweenProperty(this, "position", Position, 0.1f).SetDelay(0.1f);		
+	}
+
+	public virtual void OnMouseEntered()
+	{
+		SignalsBus.Instance?.EmitSignal("EntityMouseEntered", this);
+	}
+
+	public virtual void OnMouseExited()
+	{
+		SignalsBus.Instance?.EmitSignal("EntityMouseExited", this);
+	}
+	
+	public virtual void _on_area_2d_input_event(Node viewport, InputEvent @event, int shape_idx)
+	{
+		if (@event is InputEventMouseButton mouseButtonEvent)
+		{
+			if (mouseButtonEvent.IsPressed())
+			{
+				if (mouseButtonEvent.ButtonIndex == MouseButton.Left)
+				{
+					SignalsBus.Instance?.EmitSignal("EntityInteract", this);
+				}
+			}
+		}
+	}
+
+	public virtual void Highlight()
+	{
+		// Change the color of the tree to indicate it is being hovered
+		this.Modulate = new Color(1, 1, 0, 1); // Yellow color
+	}
+
+	public virtual void Unhighlight()
+	{
+		this.Modulate = new Color(1, 1, 1, 1); // White color
 	}
 }

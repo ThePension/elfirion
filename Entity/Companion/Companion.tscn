@@ -143,6 +143,7 @@ animations = [{
 }]
 
 [node name="Companion" type="CharacterBody2D"]
+visible = false
 z_index = 1
 y_sort_enabled = true
 collision_mask = 3

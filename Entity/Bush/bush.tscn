@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://b854lrhi2tjn7"]
+[gd_scene load_steps=10 format=3 uid="uid://b854lrhi2tjn7"]
 
 [ext_resource type="PackedScene" uid="uid://dl3iwa2poeaho" path="res://Entity/entity.tscn" id="1_vws1u"]
 [ext_resource type="Script" uid="uid://r01mu2otbbsg" path="res://Entity/Bush/Bush.cs" id="2_miyrw"]
 [ext_resource type="Texture2D" uid="uid://c8wap683fg75x" path="res://assets/tilesets/Basic_Grass_Biom_things.png" id="3_2bc28"]
+[ext_resource type="Texture2D" uid="uid://dgf6y4sadvniu" path="res://Entity/Tree/tree.png" id="4_wbr5e"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rcmwt"]
 atlas = ExtResource("3_2bc28")
@@ -17,10 +18,15 @@ bg_color = Color(1, 0.729412, 0.682353, 0.67451)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e6ehd"]
 bg_color = Color(1, 0.0117647, 0, 0.823529)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_64okb"]
+atlas = ExtResource("4_wbr5e")
+region = Rect2(67, 29, 43, 68)
+
 [node name="Bush" instance=ExtResource("1_vws1u")]
 script = ExtResource("2_miyrw")
 
 [node name="Sprite2D" parent="." index="0"]
+visible = false
 position = Vector2(8, 5)
 texture = SubResource("AtlasTexture_rcmwt")
 
@@ -42,3 +48,11 @@ offset_bottom = 12.0
 theme_override_styles/background = SubResource("StyleBoxFlat_rcmwt")
 theme_override_styles/fill = SubResource("StyleBoxFlat_e6ehd")
 show_percentage = false
+
+[node name="CollisionShape2D" parent="Area2D" index="0"]
+position = Vector2(8, 5)
+
+[node name="Sprite2D2" type="Sprite2D" parent="." index="5"]
+position = Vector2(8, -2)
+scale = Vector2(0.621536, 0.54722)
+texture = SubResource("AtlasTexture_64okb")

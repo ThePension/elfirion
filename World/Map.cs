@@ -17,8 +17,6 @@ public partial class Map : Node2D
 
 	private Vector2I currentChunkCoord = Vector2I.Zero;
 
-	private Texture2D CustomMouseCursor;
-
 	private MainLabel mainDebugLabel;
 
 	private Polygon2D highlightSprite;
@@ -32,7 +30,10 @@ public partial class Map : Node2D
 
 		highlightSprite = GetNode<Polygon2D>("ChunkContainer/HighlightSprite");
 
-		CustomMouseCursor = GD.Load<Texture2D>("res://assets/ui/cross.png");
+		// Sbuscribe to the signals
+		SignalsBus.Instance?.Connect("EntityInteract", new Callable(this, nameof(OnEntityInteract)));
+		SignalsBus.Instance?.Connect("EntityMouseEntered", new Callable(this, nameof(OnEntityMouseEntered)));
+		SignalsBus.Instance?.Connect("EntityMouseExited", new Callable(this, nameof(OnEntityMouseExited)));
 
 		RandomNumberGenerator rng = new();
 		rng.Randomize();
@@ -106,36 +107,77 @@ public partial class Map : Node2D
 
 		var mouseChunkCoord = CoordinatesHelper.WorldToChunk(mousePos);
 
-		if (chunks.ContainsKey(mouseChunkCoord))
+		// if (chunks.ContainsKey(mouseChunkCoord))
+		// {
+		// 	highlightSprite.Position = CoordinatesHelper.WorldToNearestTile(mousePos);
+
+		// 	highlightSprite.Visible = true;
+
+		// 	Entity? entity = chunks[mouseChunkCoord].GetEntityAt(mousePos);
+
+		// 	if (entity == null) {
+		// 		return;
+		// 	}
+
+		// 	// If the mouse is clicked, update the tile in the chunk
+		// 	// if (Input.IsActionJustPressed("mouse_left_click"))
+		// 	// {
+		// 	// 	if (player.CanInteract()) {
+		// 	// 		entity.Interact(player);
+		// 	// 	}
+
+		// 	// }
+
+		// 	// if (Input.IsActionJustPressed("mouse_right_click"))
+		// 	// {
+		// 	// 	entity.ToggleDisplayDebugInfo();
+		// 	// }
+		// }
+		// else
+		// {
+		// 	highlightSprite.Visible = false;
+		// }
+	}
+
+	public void OnEntityInteract(Entity entity)
+	{
+		if (entity == null)
 		{
-			highlightSprite.Position = CoordinatesHelper.WorldToNearestTile(mousePos);
-
-			highlightSprite.Visible = true;
-
-			Entity? entity = chunks[mouseChunkCoord].GetEntityAt(mousePos);
-
-			if (entity == null) {
-				return;
-			}
-
-			// If the mouse is clicked, update the tile in the chunk
-			if (Input.IsActionJustPressed("mouse_left_click"))
-			{
-				GD.Print($"Entity at {mousePos} is {entity}");
-
-				entity.Interact(player);
-			}
-
-			if (Input.IsActionJustPressed("mouse_right_click"))
-			{
-				GD.Print($"Entity at {mousePos} is {entity}");
-
-				entity.ToggleDisplayDebugInfo();
-			}
+			GD.PrintErr("Entity is null");
+			return;
 		}
-		else
+
+		if (player.CanInteract() && player.IsEntityReachableByPlayer(entity))
 		{
-			highlightSprite.Visible = false;
+			entity.Interact(player);
+		}
+	}
+
+	public void OnEntityMouseEntered(Entity entity)
+	{
+		if (entity == null)
+		{
+			GD.PrintErr("Entity is null");
+			return;
+		}
+
+		if (player.CanInteract() && player.IsEntityReachableByPlayer(entity))
+		{
+			entity.Highlight();
+		}
+	}
+
+	public void OnEntityMouseExited(Entity entity)
+	{
+		if (entity == null)
+		{
+			GD.PrintErr("Entity is null");
+			return;
+		}
+
+		if (player.CanInteract())
+		{
+			entity.Unhighlight();
 		}
 	}
 

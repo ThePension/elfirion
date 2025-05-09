@@ -75,8 +75,9 @@ public static class ItemDatabase
 				DisplayName = "Pickaxe",
 				IsStackable = false,
 				Type = ItemTypes.Pickaxe,
-				Category = ItemCategories.Weapon,
+				Category = ItemCategories.Tool,
 				Weight = 5.0,
+				Range = 2.0f,
 				Icon = ResourceLoader.Load<Texture2D>("res://assets/items/pickaxe.png")
 			}
 		},
@@ -88,7 +89,22 @@ public static class ItemDatabase
 				DisplayName = "Axe",
 				IsStackable = false,
 				Type = ItemTypes.Axe,
+				Category = ItemCategories.Tool,
+				Range = 2.0f,
+				Weight = 5.0,
+				Icon = ResourceLoader.Load<Texture2D>("res://assets/items/axe.png")
+			}
+		},
+		{
+			ItemTypes.Sword,
+			new Item
+			{
+				Id = "sword",
+				DisplayName = "Sword",
+				IsStackable = false,
+				Type = ItemTypes.Sword,
 				Category = ItemCategories.Weapon,
+				Range = 4.0f,
 				Weight = 5.0,
 				Icon = ResourceLoader.Load<Texture2D>("res://assets/items/axe.png")
 			}

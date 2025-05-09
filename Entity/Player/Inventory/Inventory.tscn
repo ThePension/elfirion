@@ -73,3 +73,4 @@ texture = ExtResource("3_1hf7f")
 
 [connection signal="item_activated" from="ListPanel/ScrollContainer/ItemList" to="." method="OnItemActivated"]
 [connection signal="item_selected" from="ListPanel/ScrollContainer/ItemList" to="." method="OnItemSelected"]
+[connection signal="gui_input" from="SelectedItemPanel" to="." method="_on_selected_item_panel_gui_input"]

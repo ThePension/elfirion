@@ -28,7 +28,7 @@ texture = SubResource("AtlasTexture_rcmwt")
 light_mask = 2
 visibility_layer = 2
 y_sort_enabled = true
-position = Vector2(8.5, 7)
+position = Vector2(8, 0)
 shape = SubResource("RectangleShape2D_vd482")
 
 [node name="DebugLabel" parent="." index="2"]
@@ -41,3 +41,6 @@ offset_bottom = 12.0
 theme_override_styles/background = SubResource("StyleBoxFlat_rcmwt")
 theme_override_styles/fill = SubResource("StyleBoxFlat_e6ehd")
 show_percentage = false
+
+[node name="CollisionShape2D" parent="Area2D" index="0"]
+position = Vector2(8, 5.5)

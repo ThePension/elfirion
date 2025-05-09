@@ -1,10 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://dl3iwa2poeaho"]
+[gd_scene load_steps=5 format=3 uid="uid://dl3iwa2poeaho"]
 
 [ext_resource type="Script" uid="uid://dqvpxhc88gphv" path="res://Entity/Entity.cs" id="1_6e8rh"]
 [ext_resource type="LabelSettings" uid="uid://larldh40hj0q" path="res://Common/debug_label_settings.tres" id="2_sxyjl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4wwvo"]
-size = Vector2(3, 0.875)
+size = Vector2(23, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sxyjl"]
+size = Vector2(22, 32)
 
 [node name="Entity" type="StaticBody2D"]
 y_sort_enabled = true
@@ -24,3 +27,13 @@ label_settings = ExtResource("2_sxyjl")
 [node name="HealthBar" type="ProgressBar" parent="."]
 offset_right = 4.0
 offset_bottom = 27.0
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(8, -2.5)
+shape = SubResource("RectangleShape2D_sxyjl")
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
+[connection signal="mouse_entered" from="Area2D" to="." method="OnMouseEntered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="OnMouseExited"]

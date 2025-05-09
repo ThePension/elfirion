@@ -13,11 +13,18 @@ public partial class Rock : Entity
 
 	public override void Interact(Player player)
 	{
+		base.Interact(player);
+
 		if (player == null)
 		{
 			GD.PrintErr("Player is null");
 			return;
 		}
+
+		if (!player.CanInteract()) {
+			return;
+		}
+
 
 		if (player.Inventory.SelectedItem?.Type == ItemTypes.Pickaxe)
 		{

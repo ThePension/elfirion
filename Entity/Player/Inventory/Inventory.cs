@@ -18,6 +18,8 @@ public partial class Inventory : Control
 		panel = GetNode<Panel>("ListPanel");
 		_itemList = GetNode<ItemList>("ListPanel/ScrollContainer/ItemList");
 		selectedItemIcon = GetNode<TextureRect>("SelectedItemPanel/ItemTexture");
+
+		panel.Hide();
 	}
 
 	public override void _Process(double delta)
@@ -25,14 +27,19 @@ public partial class Inventory : Control
 		// Check if the e key is pressed
 		if (Input.IsActionJustPressed("e_key"))
 		{
-			if (panel.Visible)
-			{
-				panel.Hide();
-			}
-			else
-			{
-				panel.Show();
-			}
+			ToogleInventory();
+		}
+	}
+
+	public void ToogleInventory()
+	{
+		if (panel.Visible)
+		{
+			panel.Hide();
+		}
+		else
+		{
+			panel.Show();
 		}
 	}
 
@@ -74,7 +81,6 @@ public partial class Inventory : Control
 		UpdateUI();
 	}
 
-	// Override to string
 	public override string ToString()
 	{
 		string result = "Inventory:\n";
@@ -104,7 +110,6 @@ public partial class Inventory : Control
 		}
 	}
 
-	// When an item is selected in the ItemList
 	public void OnItemSelected(int index)
 	{
 		if (index < 0 || index >= Slots.Count)
@@ -120,37 +125,36 @@ public partial class Inventory : Control
 
 	public void OnItemActivated(int index)
 	{
-		// Item? item = null;
-		// if (index < 0 || index >= Slots.Count)
-		// {
-		// 	return;
-		// }
-		// item = Slots[index].Item;
+		Item? item = null;
+		if (index < 0 || index >= Slots.Count)
+		{
+			return;
+		}
+		item = Slots[index].Item;
 
-		// if (item == null)
-		// {
-		// 	return;
-		// }
+		if (item == null)
+		{
+			return;
+		}
 
-		// if (item.Category == ItemCategories.Consumable)
-		// {
-		// 	item.Activate(GetParent<Player>());
-		// 	// Remove the item from the inventory
-		// 	Slots[index].Count--;
-		// 	if (Slots[index].Count <= 0)
-		// 	{
-		// 		Slots.RemoveAt(index);
-		// 	}
-		// 	UpdateUI();
-		// }
-		// else if (item.Category == ItemCategories.Tool)
-		// {
-		// 	GD.Print($"Using tool: {item.DisplayName}");
-		// 	item.Activate(GetParent<Player>());
-		// }
-		// else
-		// {
-		// 	GD.Print($"Item {item.DisplayName} is not consumable or tool.");
-		// }
+		if (item.Category == ItemCategories.Consumable)
+		{
+			item.Activate(GetParent<Player>());
+			// Remove the item from the inventory
+			Slots[index].Count--;
+			if (Slots[index].Count <= 0)
+			{
+				Slots.RemoveAt(index);
+			}
+			UpdateUI();
+		}
+	}
+
+	public void _on_selected_item_panel_gui_input(InputEvent @event)
+	{
+		if (@event is InputEventMouseButton mouseButtonEvent && mouseButtonEvent.IsPressed())
+		{
+			ToogleInventory();
+		}
 	}
 }
