@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bsq3qflo7y3kk" path="res://Entity/Player/Player.cs" id="1_4flbx"]
 [ext_resource type="Texture2D" uid="uid://cnj8tmgtlcuqn" path="res://assets/player/player-actions_spritesheet.png" id="2_qb0yx"]
 [ext_resource type="Texture2D" uid="uid://bwxsp4160wkjw" path="res://assets/player/player_spritesheet.png" id="3_viyt1"]
-[ext_resource type="Texture2D" uid="uid://im0m278lkbis" path="res://assets/items/sword_longcut-ezgif.com-gif-to-sprite-converter.png" id="4_viyt1"]
+[ext_resource type="Texture2D" uid="uid://dyay15i5cna8b" path="res://assets/items/sword-longcut_spritesheet.png" id="4_viyt1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0e48y"]
 size = Vector2(12, 5)

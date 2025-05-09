@@ -227,8 +227,6 @@ public partial class Player : CharacterBody2D
 		var shape = (RectangleShape2D)MeleeAttack.GetNode<CollisionShape2D>("CollisionShape2D").Shape;
 		shape.Size = new Vector2(Inventory.SelectedItem.Range, Inventory.SelectedItem.Range / 4.0f); // Range x Arc thickness
 
-
-		GD.Print("Performing melee attack");
 		// Set the attack direction based on mouse position
 		float angleToMouse = (GetGlobalMousePosition() - GlobalPosition).Angle();
 
@@ -291,8 +289,6 @@ public partial class Player : CharacterBody2D
 	{
 		if (body is Ennemy ennemy)
 		{
-			GD.Print($"Hit {ennemy.Name} with melee attack!");
-
 			// Deal damage or trigger interaction
 			ennemy.Interact(this);
 		}

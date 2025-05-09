@@ -28,7 +28,9 @@ public partial class Settings : Node
 	public static int EnnemyAttackDamage = 10; // Damage dealt by the enemy
 	public static int EnnemyAttackRange = 50; // Distance at which the enemy can attack the player
 
-	public static float EnnemyPushBackForce = 10.0f; // Force applied to the player when hit by the enemy
+	public static float EnnemyPushBackForce = 50.0f; // Force applied to the player when hit by the enemy
+
+	public static float EnnemyPushBackDuration = 0.5f; // Duration of the push back effect
 
 	// Entity related settings
 	public static bool DisplayDebugInfo = false;

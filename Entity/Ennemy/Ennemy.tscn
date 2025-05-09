@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dl3iwa2poeaho" path="res://Entity/entity.tscn" id="1_yhwce"]
 [ext_resource type="Script" uid="uid://ceuu17em0hvo5" path="res://Entity/Ennemy/Ennemy.cs" id="2_dgumy"]
-[ext_resource type="Texture2D" uid="uid://gwemb68ir577" path="res://assets/entities/ennemy/Minotaur - Sprite Sheet.png" id="3_dgumy"]
+[ext_resource type="Texture2D" uid="uid://bb22ndpc1urr3" path="res://assets/entities/ennemy/minotaur_spritesheet.png" id="3_dgumy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dgumy"]
 atlas = ExtResource("3_dgumy")

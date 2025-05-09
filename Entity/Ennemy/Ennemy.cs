@@ -54,7 +54,7 @@ public partial class Ennemy : Entity
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (State == EntityStates.Dying)
+		if (State == EntityStates.Dying || State == EntityStates.Freezed)
 		{
 			return;
 		}
@@ -72,8 +72,6 @@ public partial class Ennemy : Entity
 		// Follow the player
 		if (squaredDistToPlayer > Settings.EnnemyAttackRange * Settings.EnnemyAttackRange && squaredDistToPlayer < Settings.EnnemyDetectionRange * Settings.EnnemyDetectionRange && State != EntityStates.Attacking)
 		{
-			GD.Print("Ennemy is following the player");
-
 			// Move towards the player
 			Vector2 direction = (Player.GlobalPosition - GlobalPosition).Normalized();
 			Position += direction * (float)(delta * Settings.EnnemyBaseSpeed); // Move towards the player at a speed of 100 units per second
@@ -134,19 +132,27 @@ public partial class Ennemy : Entity
 		if (AnimatedSprite.Animation == "attacking_left" || AnimatedSprite.Animation == "attacking_right")
 		{
 			AnimatedSprite.Play("idle");
-			State = EntityStates.Idle;
 		}
 
 		// Push back the ennemy using velocity
 		// TODO : Use velocity instead of position -> Change the node type to do so
-		Vector2 direction = (GlobalPosition - player.GlobalPosition).Normalized();
-		Position += direction * (float)(Settings.EnnemyPushBackForce); // Move towards the player at a speed of 100 units per second
+		// Vector2 direction = (GlobalPosition - player.GlobalPosition).Normalized();
+		// Position += direction * Settings.EnnemyPushBackForce; // Move towards the player at a speed of 100 units per second
 
-		HealhBar.Value = this.Health;
+		State = EntityStates.Freezed;
+
+		HealhBar.Value = Health;
 
 		HealhBar.Visible = true;
 
-		if (this.Health > 0) {
+		if (Health > 0) {
+			// Timer to unfreeze the ennemy
+			GetTree().CreateTimer(Settings.EnnemyPushBackDuration).Timeout += () =>
+			{
+				State = EntityStates.Idle;
+				AnimatedSprite.Play("idle");
+			};
+
 			return;
 		}
 

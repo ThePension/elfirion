@@ -10,6 +10,7 @@
 * [ ] Separate entities and interactions ? -> Global game manager (InteractionsManager or smtg) ?
 * [ ] Use `await` for animations instead of callback
 * [ ] Improve interaction system with entities
+* [ ] Centralize UI ? (Inventory, Player related stuff)
 
 ## Bugfixes
 

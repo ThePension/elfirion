@@ -36,5 +36,6 @@ public enum EntityStates
     Moving,
     Attacking,
     Interacting,
-    Dying
+    Dying,
+    Freezed,
 }

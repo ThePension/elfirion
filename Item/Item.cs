@@ -16,8 +16,6 @@ public class Item
 	// Activate method
 	public virtual void Activate(Player player)
 	{
-		GD.Print($"Activating item: {DisplayName}");
-
 		switch (Type)
 		{
 			case ItemTypes.Stick:
