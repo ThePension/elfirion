@@ -1,8 +1,9 @@
-[gd_scene load_steps=47 format=3 uid="uid://byjhkgsumdtkc"]
+[gd_scene load_steps=60 format=3 uid="uid://byjhkgsumdtkc"]
 
 [ext_resource type="Script" uid="uid://bsq3qflo7y3kk" path="res://Entity/Player/Player.cs" id="1_4flbx"]
 [ext_resource type="Texture2D" uid="uid://cnj8tmgtlcuqn" path="res://assets/player/player-actions_spritesheet.png" id="2_qb0yx"]
 [ext_resource type="Texture2D" uid="uid://bwxsp4160wkjw" path="res://assets/player/player_spritesheet.png" id="3_viyt1"]
+[ext_resource type="Texture2D" uid="uid://n3tgl8jn72cv" path="res://assets/items/bow.png" id="4_rawpq"]
 [ext_resource type="Texture2D" uid="uid://dyay15i5cna8b" path="res://assets/items/sword-longcut_spritesheet.png" id="4_viyt1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0e48y"]
@@ -240,6 +241,54 @@ bg_color = Color(0.631864, 0.330677, 0.153817, 0.823529)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qb0yx"]
 size = Vector2(37, 25)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_eggcg"]
+atlas = ExtResource("4_rawpq")
+region = Rect2(0, 0, 70, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8l768"]
+atlas = ExtResource("4_rawpq")
+region = Rect2(70, 0, 70, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_al5gi"]
+atlas = ExtResource("4_rawpq")
+region = Rect2(140, 0, 70, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qpjtw"]
+atlas = ExtResource("4_rawpq")
+region = Rect2(210, 0, 70, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qn7d7"]
+atlas = ExtResource("4_rawpq")
+region = Rect2(280, 0, 70, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oosj2"]
+atlas = ExtResource("4_rawpq")
+region = Rect2(350, 0, 70, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n0gdt"]
+atlas = ExtResource("4_rawpq")
+region = Rect2(0, 90, 70, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f3utc"]
+atlas = ExtResource("4_rawpq")
+region = Rect2(70, 90, 70, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rfo2f"]
+atlas = ExtResource("4_rawpq")
+region = Rect2(140, 90, 70, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t5df3"]
+atlas = ExtResource("4_rawpq")
+region = Rect2(210, 90, 70, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_usauf"]
+atlas = ExtResource("4_rawpq")
+region = Rect2(280, 90, 70, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_84diu"]
+atlas = ExtResource("4_rawpq")
+region = Rect2(350, 90, 70, 90)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_tfwu5"]
 atlas = ExtResource("4_viyt1")
 region = Rect2(0, 0, 25, 38)
@@ -276,6 +325,47 @@ region = Rect2(0, 266, 25, 38)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_eggcg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8l768")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_al5gi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qpjtw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qn7d7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oosj2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n0gdt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f3utc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rfo2f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t5df3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_usauf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_84diu")
+}],
+"loop": false,
+"name": &"bow_attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_tfwu5")
 }, {
 "duration": 1.0,
@@ -300,7 +390,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_jbs27")
 }],
 "loop": false,
-"name": &"attack",
+"name": &"sword_attack",
 "speed": 5.0
 }]
 
@@ -377,7 +467,6 @@ show_percentage = false
 [node name="EnergyRegenerationTimer" type="Timer" parent="."]
 
 [node name="MeleeAttack" type="Area2D" parent="."]
-visible = false
 z_index = -1
 position = Vector2(8, -3)
 
@@ -399,8 +488,7 @@ color = Color(1, 0.109804, 1, 1)
 position = Vector2(2.86102e-05, -15.5)
 rotation = -1.57079
 sprite_frames = SubResource("SpriteFrames_qb0yx")
-animation = &"attack"
-frame = 4
+animation = &"bow_attack"
 speed_scale = 2.0
 
 [connection signal="body_entered" from="MeleeAttack" to="." method="_on_MeleeAttack_body_entered"]

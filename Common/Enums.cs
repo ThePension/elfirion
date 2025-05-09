@@ -19,6 +19,7 @@ public enum ItemTypes
     Pickaxe,
     Axe,
     Sword,
+    Bow
 }
 
 public enum Directions

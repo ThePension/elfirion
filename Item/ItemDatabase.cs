@@ -108,6 +108,20 @@ public static class ItemDatabase
 				Weight = 5.0,
 				Icon = ResourceLoader.Load<Texture2D>("res://assets/items/axe.png")
 			}
+		},
+		{
+			ItemTypes.Bow,
+			new Item
+			{
+				Id = "bow",
+				DisplayName = "Bow",
+				IsStackable = false,
+				Type = ItemTypes.Bow,
+				Category = ItemCategories.Weapon,
+				Range = 4.0f,
+				Weight = 5.0,
+				Icon = ResourceLoader.Load<Texture2D>("res://assets/items/apple.png")
+			}
 		}
 	};
 }

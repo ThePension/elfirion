@@ -53,7 +53,17 @@ public partial class Entity : StaticBody2D
 		if (player.Inventory.SelectedItem != null) {
 			player.UseItem(player.Inventory.SelectedItem);
 		}
-	 }
+	}
+
+	public void TakeDamage(double damage)
+	{
+		Health -= damage;
+		if (Health <= 0)
+		{
+			// TODO : Emit a signal to the world to remove the entity
+			// Die();
+		}
+	}
 	
 	public virtual void SaveState() { }
 

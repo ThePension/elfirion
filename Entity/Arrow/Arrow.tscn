@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://tldghk5wo26i"]
+
+[ext_resource type="Texture2D" uid="uid://uk3y08havpk6" path="res://assets/items/Arrows_pack.png" id="1_1d2yi"]
+[ext_resource type="Script" uid="uid://ciy7ppf1aogfd" path="res://Entity/Arrow/Arrow.cs" id="1_rvvi2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rvvi2"]
+atlas = ExtResource("1_1d2yi")
+region = Rect2(120, 306, 654, 306)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1d2yi"]
+size = Vector2(6, 2)
+
+[node name="Arrow" type="RigidBody2D"]
+gravity_scale = 0.0
+script = ExtResource("1_rvvi2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.01, 0.01)
+texture = SubResource("AtlasTexture_rvvi2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_1d2yi")

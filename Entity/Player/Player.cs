@@ -93,6 +93,7 @@ public partial class Player : CharacterBody2D
 		Inventory.AddItem(ItemTypes.Pickaxe);
 		Inventory.AddItem(ItemTypes.Axe);
 		Inventory.AddItem(ItemTypes.Sword);
+		Inventory.AddItem(ItemTypes.Bow);
 
 		ScreenSize = GetViewportRect().Size;
 		
@@ -124,7 +125,7 @@ public partial class Player : CharacterBody2D
 		// Handle melee attack
 		if (Input.IsActionJustPressed("mouse_left_click") && Inventory.SelectedItem?.Category == ItemCategories.Weapon)
 		{
-			PerformMeleeAttack();
+			PerformAttack();
 		}
 
 		var camera = GetViewport().GetCamera2D();
@@ -211,21 +212,37 @@ public partial class Player : CharacterBody2D
 		FoodBar.Value = Food;
 	}
 
-	private void PerformMeleeAttack()
-	{
-		// if (State != EntityStates.Idle && State != EntityStates.Moving)
-		// {
-		// 	return; // Don't perform melee attack if not idle or moving
-		// }
-
+	private void PerformAttack() {
 		if (Inventory.SelectedItem == null)
 		{
 			GD.PrintErr("No item selected for melee attack.");
 			return;
 		}
 
+		switch (Inventory.SelectedItem.Type)
+		{
+			case ItemTypes.Sword:
+				PerformMeleeAttack();
+				break;
+			case ItemTypes.Bow:
+				PerformBowAttack();
+				break;
+			default:
+				GD.PrintErr("Unknown item type.");
+				break;
+		}
+	}
+
+	private void PerformMeleeAttack()
+	{
+		GD.Print("Melee attack performed!");
+		// if (State != EntityStates.Idle && State != EntityStates.Moving)
+		// {
+		// 	return; // Don't perform melee attack if not idle or moving
+		// }
+
 		var shape = (RectangleShape2D)MeleeAttack.GetNode<CollisionShape2D>("CollisionShape2D").Shape;
-		shape.Size = new Vector2(Inventory.SelectedItem.Range, Inventory.SelectedItem.Range / 4.0f); // Range x Arc thickness
+		shape.Size = new Vector2(Inventory.SelectedItem!.Range, Inventory.SelectedItem.Range / 4.0f); // Range x Arc thickness
 
 		// Set the attack direction based on mouse position
 		float angleToMouse = (GetGlobalMousePosition() - GlobalPosition).Angle();
@@ -243,7 +260,47 @@ public partial class Player : CharacterBody2D
 		// Play the attack animation
 		var animation = MeleeAttack.GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
-		animation.Play("attack");;
+		animation.Play("sword_attack");;
+	}
+
+	private void PerformBowAttack()
+	{
+		GD.Print("Bow attack performed!");
+		// TODO : Implement bow attack
+		var shape = (RectangleShape2D)MeleeAttack.GetNode<CollisionShape2D>("CollisionShape2D").Shape;
+		shape.Size = new Vector2(Inventory.SelectedItem!.Range, Inventory.SelectedItem.Range / 4.0f); // Range x Arc thickness
+
+		// Set the attack direction based on mouse position
+		float angleToMouse = (GetGlobalMousePosition() - GlobalPosition).Angle();
+
+		// Add 90 degrees to the angle to make the attack direction match the sprite
+		angleToMouse += Mathf.Pi / 2;
+
+		MeleeAttack.Rotation = angleToMouse;
+
+		// Enable the melee area to detect hits
+		MeleeAttack.Visible = true;
+		MeleeAttack.Monitoring = false;
+		MeleeAttack.Monitorable = false;
+
+		// Play the attack animation
+		// var animation = MeleeAttack.GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+
+		// animation.Play("bow_attack");
+
+		// Generate an arrow
+		// Load the arrow scene
+		PackedScene arrowScene = (PackedScene)GD.Load("res://Entity/Arrow/Arrow.tscn");
+		Arrow arrow = arrowScene.Instantiate<Arrow>();
+
+		// Set arrow properties
+		arrow.GlobalPosition = GlobalPosition + new Vector2(1, 1) * Settings.TileSizePx * angleToMouse;
+		arrow.Direction = (GetGlobalMousePosition() - GlobalPosition).Normalized();
+		arrow.Rotation = angleToMouse;
+
+		// Add the arrow to the world
+		GetParent().AddChild(arrow);
+
 	}
 
 	public Vector2 GetGlobalPositionCentered()

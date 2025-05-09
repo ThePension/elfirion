@@ -11,6 +11,8 @@
 * [ ] Use `await` for animations instead of callback
 * [ ] Improve interaction system with entities
 * [ ] Centralize UI ? (Inventory, Player related stuff)
+* [ ] Refactor Item system : Weapon should have an inherated implementation for handle their own stuff (animation, generate arrow for bow, ...)
+    * [ ] Perhaps would be nice that item (like Sword, Bow) have their own scene ?
 
 ## Bugfixes
 
